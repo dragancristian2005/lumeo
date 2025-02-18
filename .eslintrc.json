@@ -1,0 +1,61 @@
+{
+  "root": true,
+  "overrides": [
+    {
+      "files": ["**/*.ts"],
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/stylistic",
+        "plugin:@angular-eslint/recommended",
+        "plugin:prettier/recommended"
+      ],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "project": ["tsconfig.json"]
+      },
+      "plugins": ["@angular-eslint", "@typescript-eslint", "prettier"],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ],
+        "@angular-eslint/no-empty-lifecycle-methods": "warn",
+        "@angular-eslint/no-host-metadata-property": "warn",
+        "@angular-eslint/use-lifecycle-interface": "warn",
+        "@typescript-eslint/no-unused-vars": "warn",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-explicit-any": "warn",
+        "arrow-body-style": ["error", "as-needed"],
+        "@typescript-eslint/explicit-return-type": ["warn", {
+          "allowExpressions": true,
+          "allowTypedFunctionExpressions": true
+        }],
+        "prettier/prettier": "warn"
+      }
+    },
+    {
+      "files": ["**/*.html"],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended",
+        "plugin:@angular-eslint/template/accessibility",
+        "plugin:prettier/recommended"
+      ],
+      "rules": {
+        "prettier/prettier": "warn"
+      }
+    }
+  ]
+}
