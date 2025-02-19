@@ -20,6 +20,11 @@ module.exports = {
         dark: '#1f2937',
         darkBackground: '#2d3748',
       },
+      fontSize: {
+        text: '0.875rem',
+        title: '1.5rem',
+        subtitle: '1.25rem',
+      },
     },
   },
   plugins: [],

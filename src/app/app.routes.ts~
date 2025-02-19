@@ -4,7 +4,7 @@ import { ExploreComponent } from './pages/explore/explore.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { MessagesComponent } from './pages/messages/messages.component';
-import { SavedComponent } from './pages/saved/saved.component';
+import {SavedComponent} from './pages/saved/saved.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },

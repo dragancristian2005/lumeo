@@ -1,3 +1,8 @@
-<main>
-  <p class="font-sans">{{ title }}</p>
+<main class="flex flex-row h-screen">
+  <nav>
+    <app-navigation></app-navigation>
+  </nav>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
 </main>
