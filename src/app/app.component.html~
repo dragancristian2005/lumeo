@@ -1,0 +1,3 @@
+<main>
+  <p class="font-sans m-2">{{ title }}</p>
+</main>
