@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavigationComponent } from './navigation/navigation.component';
+import { NavigationComponent } from './app-layout/navigation/navigation.component';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, NavigationComponent],
+  imports: [RouterOutlet, NavigationComponent, NgIf, AsyncPipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'Lumeo';
+  constructor(public authService: AuthService) {}
 }

@@ -1,4 +1,4 @@
-<main class="flex flex-row h-screen">
+<main *ngIf="authService.user$ | async as user" class="flex flex-row h-screen">
   <nav>
     <app-navigation></app-navigation>
   </nav>
@@ -6,3 +6,12 @@
     <router-outlet></router-outlet>
   </div>
 </main>
+
+<div
+  *ngIf="
+    (authService.user$ | async) === null ||
+    (authService.user$ | async) === undefined
+  "
+>
+  <router-outlet></router-outlet>
+</div>

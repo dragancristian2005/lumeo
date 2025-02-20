@@ -1,9 +1,0 @@
-<main class="flex flex-row h-screen">
-  <nav>
-    <app-navigation></app-navigation>
-  </nav>
-  <div>
-    <p>routeroutler</p>
-    <router-outlet></router-outlet>
-  </div>
-</main>

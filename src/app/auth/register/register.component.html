@@ -1,0 +1,25 @@
+<form (submit)="register()">
+  <input
+    type="email"
+    [(ngModel)]="email"
+    [ngModelOptions]="{ standalone: true }"
+    placeholder="Email"
+    required
+  />
+  <input
+    type="password"
+    [(ngModel)]="password"
+    [ngModelOptions]="{ standalone: true }"
+    placeholder="Password"
+    required
+  />
+  <input
+    type="password"
+    [(ngModel)]="confirmPassword"
+    [ngModelOptions]="{ standalone: true }"
+    placeholder="Confirm Password"
+    required
+  />
+  <button type="submit">Register</button>
+</form>
+<button routerLink="/login">login</button>

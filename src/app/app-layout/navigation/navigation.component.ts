@@ -4,11 +4,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgClass, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-navigation',
-  standalone: true,
-  imports: [RouterLink, MatIconModule, RouterLinkActive, NgIf, NgClass],
-  templateUrl: './navigation.component.html',
-  styleUrl: './navigation.component.scss',
+    selector: 'app-navigation',
+    imports: [RouterLink, MatIconModule, RouterLinkActive, NgIf, NgClass],
+    templateUrl: './navigation.component.html',
+    styleUrl: './navigation.component.scss'
 })
 export class NavigationComponent {
   constructor(private router: Router) {}

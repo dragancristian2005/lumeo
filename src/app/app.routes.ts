@@ -1,18 +1,26 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { ExploreComponent } from './pages/explore/explore.component';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { NotificationsComponent } from './pages/notifications/notifications.component';
-import { MessagesComponent } from './pages/messages/messages.component';
-import { SavedComponent } from './pages/saved/saved.component';
+import { HomeComponent } from './home/home.component';
+import { ExploreComponent } from './explore/explore.component';
+import { ProfileComponent } from './profile/profile.component';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { MessagesComponent } from './messages/messages.component';
+import { SavedComponent } from './saved/saved.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { AuthGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'explore', component: ExploreComponent },
-  { path: 'notifications', component: NotificationsComponent },
-  { path: 'messages', component: MessagesComponent },
-  { path: 'saved', component: SavedComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  {
+    path: 'notifications',
+    component: NotificationsComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'messages', component: MessagesComponent, canActivate: [AuthGuard] },
+  { path: 'saved', component: SavedComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/home' },
 ];
