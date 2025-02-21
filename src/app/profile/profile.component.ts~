@@ -4,7 +4,7 @@ import { FirebaseService } from '../firebase/firebase.service';
 import { UserData } from '../types/userData.types';
 import { Auth } from '@angular/fire/auth';
 import { NgIf } from '@angular/common';
-import { UserMetricsComponent } from './user-metrics/user-metrics.component';
+import {UserMetricsComponent} from './user-metrics/user-metrics.component';
 
 @Component({
   selector: 'app-profile',

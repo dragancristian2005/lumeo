@@ -31,13 +31,7 @@ export class RegisterComponent {
       alert('Passwords do not match');
       return;
     } else {
-      this.authService.register(
-        this.firstName,
-        this.lastName,
-        this.username,
-        this.email,
-        this.password,
-      );
+      this.authService.register(this.firstName, this.lastName, this.username,this.email, this.password);
     }
   }
 }

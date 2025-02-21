@@ -9,6 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { Database, ref, set } from '@angular/fire/database';
 
 @Injectable({
   providedIn: 'root',
@@ -19,13 +20,35 @@ export class AuthService {
   constructor(
     private auth: Auth,
     private router: Router,
+    private db: Database,
   ) {
     this.user$ = user(this.auth);
   }
 
-  async register(email: string, password: string) {
+  async register(
+    firstName: string,
+    lastName: string,
+    username: string,
+    email: string,
+    password: string,
+  ) {
     try {
-      await createUserWithEmailAndPassword(this.auth, email, password);
+      const userCredentials = await createUserWithEmailAndPassword(
+        this.auth,
+        email,
+        password,
+      );
+      const userId = userCredentials.user.uid;
+      await set(ref(this.db, `users/${userId}`), {
+        firstName,
+        lastName,
+        username,
+        email,
+        profilePic: '',
+        bio: '',
+        followers: {},
+        following: {},
+      });
       await this.router.navigate(['/home']);
     } catch (error: any) {
       console.error('Registration error:', error.message);
