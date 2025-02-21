@@ -2,7 +2,7 @@
   <nav>
     <app-navigation></app-navigation>
   </nav>
-  <div class="h-screen">
+  <div class="full w-full">
     <router-outlet></router-outlet>
   </div>
 </main>

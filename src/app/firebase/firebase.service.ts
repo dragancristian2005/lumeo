@@ -52,4 +52,28 @@ export class FirebaseService {
       );
     });
   }
+
+  async getUserPosts(userId: string) {
+    const postRef = ref(this.db, `posts`);
+    const snapshot = await get(postRef);
+
+    if (!snapshot.exists()) return [];
+
+    const allPosts: Post = snapshot.val();
+    return Object.values(allPosts).filter(
+      (post: Post) => post.authorId === userId,
+    );
+  }
+
+  async getLikedPosts(userId: string) {
+    const likedRef = ref(this.db, `posts`);
+    const snapshot = await get(likedRef);
+
+    if (!snapshot.exists()) return [];
+
+    const likedPosts: Post = snapshot.val();
+    return Object.values(likedPosts).filter(
+      (post: Post) => post.likes && post.likes[userId],
+    );
+  }
 }

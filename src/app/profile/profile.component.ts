@@ -5,12 +5,13 @@ import { UserData } from '../types/userData.types';
 import { Auth } from '@angular/fire/auth';
 import { NgIf } from '@angular/common';
 import { UserMetricsComponent } from './user-metrics/user-metrics.component';
+import { UserPostsComponent } from './user-posts/user-posts.component';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  imports: [NgIf, UserMetricsComponent],
+  imports: [NgIf, UserMetricsComponent, UserPostsComponent],
 })
 export class ProfileComponent implements OnInit {
   userId: string | null = null;

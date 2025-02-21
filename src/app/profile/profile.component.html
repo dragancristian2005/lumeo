@@ -2,7 +2,10 @@
   <p>Loading profile...</p>
 </div>
 
-<main *ngIf="!isLoading && userData" class="w-full h-full py-5 px-10">
+<main
+  *ngIf="!isLoading && userData"
+  class="w-full h-full py-5 px-10 flex flex-col"
+>
   <h1 class="font-sans text-title font-semibold">
     {{
       userData.firstName.charAt(0).toUpperCase() + userData.firstName.slice(1)
@@ -16,7 +19,15 @@
   <div class="w-full h-1/5 mt-3 mx-2">
     <app-user-metrics />
   </div>
-  <button (click)="logout()">Logout</button>
+  <div class="w-full mt-3 mx-2 overflow-y-auto max-h-[55vh]">
+    <app-user-posts />
+  </div>
+  <button
+    (click)="logout()"
+    class="mt-5 mx-2 w-fit cursor-pointer bg-primary text-text text-white font-semibold px-5 py-2 rounded-xl"
+  >
+    Logout
+  </button>
 </main>
 
 <div *ngIf="!isLoading && !userData">

@@ -1,0 +1,34 @@
+<div class="mb-4 mt-4">
+  <button
+    class="font-sans pr-2 cursor-pointer"
+    (click)="activeTab = 'posts'"
+    [ngClass]="{ 'active-tab': activeTab === 'posts' }"
+  >
+    Posts
+  </button>
+  <button
+    class="font-sans pl-2 cursor-pointer"
+    (click)="activeTab = 'liked'"
+    [ngClass]="{ 'active-tab': activeTab === 'liked' }"
+  >
+    Liked
+  </button>
+</div>
+
+<div *ngIf="activeTab === 'posts'">
+  <div *ngIf="userPosts.length > 0; else noPosts">
+    <div *ngFor="let post of userPosts" class="post">
+      <p>{{ post.content }}</p>
+    </div>
+  </div>
+  <ng-template #noPosts><p>No posts available.</p></ng-template>
+</div>
+
+<div *ngIf="activeTab === 'liked'">
+  <div *ngIf="likedPosts.length > 0; else noLikedPosts">
+    <div *ngFor="let post of likedPosts" class="post">
+      <p>{{ post.content }}</p>
+    </div>
+  </div>
+  <ng-template #noLikedPosts><p>No liked posts available.</p></ng-template>
+</div>
