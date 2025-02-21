@@ -189,7 +189,15 @@
       ></a>
     </li>
   </ul>
-  <ul class="flex flex-col items-center">
+  <ul class="flex flex-col items-center gap-4">
+    <li>
+      <button
+        class="bg-primary py-0.75 px-3.5 rounded-xl text-white font-sans font-semibold text-title"
+        (click)="openModal()"
+      >
+        +
+      </button>
+    </li>
     <li>
       <a
         routerLink="/profile"
@@ -229,3 +237,38 @@
     </li>
   </ul>
 </nav>
+
+<div
+  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+  [ngClass]="{ block: isModalOpen, hidden: !isModalOpen }"
+  (click)="closeModal()"
+>
+  <div
+    class="bg-white p-6 rounded-2xl w-1/2"
+    (click)="$event.stopPropagation()"
+  >
+    <h2 class="font-sans text-title font-semibold mb-4">Create a New Post</h2>
+    <form (ngSubmit)="onSubmit()" class="flex flex-col h-full">
+      <textarea
+        [(ngModel)]="postContent"
+        name="content"
+        placeholder="What's on your mind?"
+        required
+        class="w-full min-h-36 p-3 border border-gray-300 rounded-xl mb-4 focus:outline-none focus:ring-1 focus:ring-primary"
+      ></textarea>
+      <button
+        type="submit"
+        [disabled]="!postContent"
+        class="w-full py-2 bg-primary text-white rounded-xl cursor-pointer disabled:bg-gray-400"
+      >
+        Post
+      </button>
+    </form>
+    <button
+      class="absolute top-4 right-4 text-gray-200 hover:text-black"
+      (click)="closeModal()"
+    >
+      X
+    </button>
+  </div>
+</div>

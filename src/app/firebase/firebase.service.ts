@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Database, onValue, ref } from '@angular/fire/database';
 import { get } from 'firebase/database';
 import { Post } from '../types/post.types';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -23,10 +23,11 @@ export class FirebaseService {
 
     onValue(postRef, (snapshot) => {
       if (snapshot.exists()) {
-        const posts = Object.values(
-          snapshot.val().filter((post: Post) => post.authorId === userId),
+        const posts = Object.values(snapshot.val()) as Post[];
+        const filteredPosts = posts.filter(
+          (post: Post) => post.authorId === userId,
         );
-        this.postCount$.next(posts.length);
+        this.postCount$.next(filteredPosts.length);
       } else {
         this.postCount$.next(0);
       }
@@ -53,27 +54,39 @@ export class FirebaseService {
     });
   }
 
-  async getUserPosts(userId: string) {
+  listenForUserPosts(userId: string) {
     const postRef = ref(this.db, `posts`);
-    const snapshot = await get(postRef);
 
-    if (!snapshot.exists()) return [];
-
-    const allPosts: Post = snapshot.val();
-    return Object.values(allPosts).filter(
-      (post: Post) => post.authorId === userId,
-    );
+    return new Observable<Post[]>((observer) => {
+      onValue(postRef, (snapshot) => {
+        if (snapshot.exists()) {
+          const posts: Post[] = Object.values(snapshot.val()) as Post[];
+          const filteredPosts = posts.filter(
+            (post: Post) => post.authorId === userId,
+          );
+          observer.next(filteredPosts);
+        } else {
+          observer.next([]);
+        }
+      });
+    });
   }
 
-  async getLikedPosts(userId: string) {
-    const likedRef = ref(this.db, `posts`);
-    const snapshot = await get(likedRef);
+  listenForLikedPosts(userId: string) {
+    const likedPostRef = ref(this.db, `posts`);
 
-    if (!snapshot.exists()) return [];
-
-    const likedPosts: Post = snapshot.val();
-    return Object.values(likedPosts).filter(
-      (post: Post) => post.likes && post.likes[userId],
-    );
+    return new Observable<Post[]>((observer) => {
+      onValue(likedPostRef, (snapshot) => {
+        if (snapshot.exists()) {
+          const likedPosts: Post[] = Object.values(snapshot.val()) as Post[];
+          const filteredLikedPosts = likedPosts.filter(
+            (post: Post) => post.likes && post.likes[userId],
+          );
+          observer.next(filteredLikedPosts);
+        } else {
+          observer.next([]);
+        }
+      });
+    });
   }
 }

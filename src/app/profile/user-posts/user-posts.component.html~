@@ -1,4 +1,4 @@
-<div class="mb-4 mt-4 border-b-2 border-spacing-1">
+<div class="mb-4 mt-4">
   <button
     class="font-sans pr-2 cursor-pointer"
     (click)="activeTab = 'posts'"
@@ -21,7 +21,9 @@
       <p>{{ post.content }}</p>
     </div>
   </div>
-  <ng-template #noPosts><p>No posts available.</p></ng-template>
+  <ng-template #noPosts
+    ><p class="font-sans">No posts available.</p></ng-template
+  >
 </div>
 
 <div *ngIf="activeTab === 'liked'">
@@ -30,5 +32,5 @@
       <p>{{ post.content }}</p>
     </div>
   </div>
-  <ng-template #noLikedPosts><p>No liked posts available.</p></ng-template>
+  <ng-template #noLikedPosts><p class="font-sans">No liked posts available.</p></ng-template>
 </div>

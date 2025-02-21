@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { Post } from '../../types/post.types';
 import { FirebaseService } from '../../firebase/firebase.service';
 import { Auth } from '@angular/fire/auth';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-posts',
@@ -10,11 +11,13 @@ import { Auth } from '@angular/fire/auth';
   templateUrl: './user-posts.component.html',
   styleUrl: './user-posts.component.scss',
 })
-export class UserPostsComponent implements OnInit {
+export class UserPostsComponent implements OnInit, OnDestroy {
   activeTab = 'posts';
   userId: string | null = null;
   userPosts: Post[] = [];
   likedPosts: Post[] = [];
+  private userPostsSubscription: Subscription | null = null;
+  private userLikedPostsSubscription: Subscription | null = null;
 
   constructor(
     private firebaseService: FirebaseService,
@@ -27,17 +30,31 @@ export class UserPostsComponent implements OnInit {
 
     this.userId = currentUser.uid;
 
-    this.fetchUserPosts();
-    this.fetchLikedPosts();
+    this.listenForUserPosts();
+    this.listenForLikedPosts();
   }
 
-  async fetchUserPosts() {
+  listenForUserPosts() {
     if (!this.userId) return;
-    this.userPosts = await this.firebaseService.getUserPosts(this.userId);
+    this.userPostsSubscription = this.firebaseService
+      .listenForUserPosts(this.userId)
+      .subscribe((posts: Post[]) => {
+        this.userPosts = posts;
+      });
   }
 
-  async fetchLikedPosts() {
+  listenForLikedPosts() {
     if (!this.userId) return;
-    this.likedPosts = await this.firebaseService.getLikedPosts(this.userId);
+    this.userLikedPostsSubscription = this.firebaseService
+      .listenForLikedPosts(this.userId)
+      .subscribe((posts: Post[]) => {
+        this.likedPosts = posts;
+      });
+  }
+
+  ngOnDestroy() {
+    if (this.userPostsSubscription) {
+      this.userPostsSubscription.unsubscribe();
+    }
   }
 }
