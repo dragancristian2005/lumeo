@@ -4,10 +4,11 @@ import { Post } from '../../types/post.types';
 import { FirebaseService } from '../../firebase/firebase.service';
 import { Auth } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
+import { RelativeTimePipe } from '../relative-time.pipe';
 
 @Component({
   selector: 'app-user-posts',
-  imports: [NgClass, NgIf, NgForOf],
+  imports: [NgClass, NgIf, NgForOf, RelativeTimePipe],
   templateUrl: './user-posts.component.html',
   styleUrl: './user-posts.component.scss',
 })

@@ -6,9 +6,10 @@ interface Comment {
 
 export interface Post {
   authorId: string;
+  postTitle: string;
   content: string;
   timestamp: number;
-  image: string;
+  image?: string;
   likes: Record<string, boolean>;
   comments: Record<string, Comment>;
 }

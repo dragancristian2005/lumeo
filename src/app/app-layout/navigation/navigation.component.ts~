@@ -3,8 +3,9 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { NgClass, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { getDatabase,ref, push, set } from 'firebase/database';
+import { getDatabase, ref, push, set } from 'firebase/database';
 import { Auth } from '@angular/fire/auth';
+import {Post} from '../../types/post.types';
 
 @Component({
   selector: 'app-navigation',
@@ -21,6 +22,7 @@ import { Auth } from '@angular/fire/auth';
 })
 export class NavigationComponent {
   postContent = '';
+  postTitle = '';
   isModalOpen = false;
 
   constructor(
@@ -47,8 +49,9 @@ export class NavigationComponent {
       const userId = currentUser.uid;
       const timestamp = Date.now();
 
-      const post = {
+      const post:Post = {
         authorId: userId,
+        postTitle: this.postTitle,
         content: this.postContent,
         timestamp,
         likes: {},
@@ -60,6 +63,7 @@ export class NavigationComponent {
 
       this.closeModal();
       this.postContent = '';
+      this.postTitle = '';
     } catch (e) {
       console.error('Error sending data to database:', e);
     }

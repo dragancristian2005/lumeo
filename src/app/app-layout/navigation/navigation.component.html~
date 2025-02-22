@@ -265,7 +265,7 @@
       ></textarea>
       <button
         type="submit"
-        [disabled]="!postContent || !postTitle"
+        [disabled]="!postContent && !postTitle"
         class="w-full py-2 bg-primary text-white rounded-xl cursor-pointer disabled:bg-gray-400"
       >
         Post

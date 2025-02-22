@@ -14,7 +14,7 @@ module.exports = {
         secondary: 'rgba(99,74,255,0.05)',
         accent: '#38c172',
         primaryText: '#11181C',
-        secondaryText: '#6B7280',
+        secondaryText: '#5b606c',
         tertiaryText: '#7C7C7C',
         background: '#f9fafb',
         dark: '#1f2937',

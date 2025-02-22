@@ -1,4 +1,4 @@
-button {
+.tab {
   background: none;
   border: none;
   padding: 5px 10px;
@@ -8,12 +8,12 @@ button {
 
 }
 
-button.active-tab {
+.tab.active-tab {
   color: black;
 
 }
 
-button.active-tab::after {
+.tab.active-tab::after {
   content: '';
   position: absolute;
   bottom: -5px;
