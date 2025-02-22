@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NotificationService } from './fetch-notifications.component';
 import { Auth } from '@angular/fire/auth';
-import { AsyncPipe, DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-notifications',

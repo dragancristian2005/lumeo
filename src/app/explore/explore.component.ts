@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { getDatabase, ref, onValue, set } from 'firebase/database';
+import { getDatabase, ref, onValue, set, get, push } from 'firebase/database';
 import { NgForOf, NgIf } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
 
@@ -71,6 +71,23 @@ export class ExploreComponent implements OnInit {
 
     await set(followingRef, true);
     await set(followersRef, true);
+
+    const currentUserRef = ref(this.db, `users/${this.currentUserId}`);
+    const currentUserSnapshot = await get(currentUserRef);
+    const currentUserData = currentUserSnapshot.val();
+    const senderUsername = currentUserData
+      ? currentUserData.username
+      : 'Unknown';
+
+    const notificationRef = ref(this.db, `users/${userId}/notifications`);
+    const newNotificationKey = push(notificationRef);
+
+    await set(newNotificationKey, {
+      type: 'follow',
+      senderUsername,
+      read: false,
+      timestamp: Date.now(),
+    });
   }
 
   async unfollowUser(userId: string) {
@@ -89,19 +106,6 @@ export class ExploreComponent implements OnInit {
     await set(followersRef, null);
 
     console.log(`Unfollowed user: ${userId}`);
-  }
-
-  checkIfFollowing(userId: string) {
-    if (!this.currentUserId) return;
-
-    const followingRef = ref(
-      this.db,
-      `users/${this.currentUserId}/following/${userId}`,
-    );
-
-    onValue(followingRef, (snapshot) => {
-      this.isUserFollowing[userId] = snapshot.exists();
-    });
   }
 
   fetchFollowData() {
