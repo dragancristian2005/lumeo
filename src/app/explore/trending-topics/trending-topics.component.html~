@@ -1,0 +1,20 @@
+<main class="w-full h-full py-2 flex flex-col">
+  <h1 class="font-sans text-subtitle">Trending Topics</h1>
+  <ul
+    *ngIf="topTopics.length > 0"
+    class="flex flex-row w-full justify-between gap-4"
+  >
+    <li
+      *ngFor="let item of topTopics"
+      class="mt-2 bg-secondary w-full h-44 py-4 px-8 rounded-2xl flex flex-col justify-center"
+    >
+      <p class="font-sans text-text font-semibold text-gray-700">
+        {{ item.count }} posts
+      </p>
+      <h1 class="font-sans text-subtitle font-semibold">#{{ item.topic }}</h1>
+    </li>
+  </ul>
+  <p *ngIf="topTopics.length === 0" class="font-sans px-4 text-tertiaryText ">
+    No topics found
+  </p>
+</main>

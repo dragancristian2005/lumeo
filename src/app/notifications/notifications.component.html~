@@ -1,9 +1,57 @@
-<div *ngIf="notifications$ | async as notifications">
-  <div *ngFor="let notif of notifications">
-    <div [ngClass]="{'bg-gray-200': !notif.read, 'bg-white': notif.read}" class="p-2 mb-2 rounded">
-      <p><strong>{{ notif.senderUsername }}</strong>: {{ notif.message }}</p>
-      <p class="text-sm text-gray-500">{{ notif.timestamp | date:'short' }}</p>
-      <button (click)="markNotificationAsRead(notif.id)">Mark as read</button>
+<main class="w-full h-full py-5 px-10 flex flex-col">
+  <h1 class="font-sans text-title font-bold">Notifications</h1>
+  <div class="w-full mt-5">
+    <div class="border-b-2 w-full flex justify-start">
+      <div class="flex max-w-sm">
+        <button
+          *ngFor="let tab of tabs"
+          class="px-4 py-2 transition-colors duration-200 font-sans font-semibold"
+          [class.border-black]="activeTab === tab.key"
+          [class.text-gray-500]="activeTab !== tab.key"
+          [class.text-black]="activeTab === tab.key"
+          [class.border-b-4]="activeTab === tab.key"
+          (click)="setTab(tab.key)"
+        >
+          {{ tab.label }}
+        </button>
+      </div>
+    </div>
+
+    <div class="mt-4 space-y-4">
+      <div
+        *ngFor="let notification of filteredNotifications"
+        class="px-4 py-2 max-h-96 overflow-y-auto"
+      >
+        <div *ngIf="notification.type === 'like'">
+          <p class="font-sans font-semibold">
+            &#64;{{ notification.senderUsername }} liked your post
+          </p>
+        </div>
+        <div *ngIf="notification.type === 'comment'">
+          <p class="font-sans font-semibold">
+            &#64;{{ notification.senderUsername }} commented on your post
+          </p>
+        </div>
+        <div
+          *ngIf="notification.type === 'follow'"
+          class="flex flex-row justify-between"
+        >
+          <p class="font-sans">
+            <strong>&#64;{{ notification.senderUsername }}</strong> started
+            following you
+          </p>
+        </div>
+        <p class="font-sans text-tertiaryText">
+          {{ notification.timestamp | relativeTime }}
+        </p>
+      </div>
+
+      <p
+        *ngIf="filteredNotifications.length === 0"
+        class="text-gray-500 text-center"
+      >
+        No notifications found.
+      </p>
     </div>
   </div>
-</div>
+</main>

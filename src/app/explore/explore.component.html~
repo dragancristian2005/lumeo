@@ -4,7 +4,7 @@
     type="text"
     [(ngModel)]="searchQuery"
     [ngModelOptions]="{ standalone: true }"
-    class="w-full h-12 mt-3 px-5 bg-gray-100 rounded-2xl outline-none"
+    class="w-full h-10 mt-3 px-5 bg-gray-100 rounded-2xl outline-none"
     placeholder="Search topics, people, or posts"
   />
   <div
@@ -21,7 +21,7 @@
         <p class="font-sans font-semibold">&#64;{{ searchResult.username }}</p>
         <div *ngIf="!isUserFollowing[searchResult.userId]">
           <button
-            class="bg-primary px-3 py-1"
+            class="bg-primary rounded-xl px-3 py-1"
             (click)="followUser(searchResult.userId)"
           >
             <svg
@@ -71,5 +71,8 @@
     class="mt-2 mx-4"
   >
     <p class="font-sans">No results found</p>
+  </div>
+  <div *ngIf="!searchQuery" class="mt-2 mx-4">
+    <app-trending-topics />
   </div>
 </main>

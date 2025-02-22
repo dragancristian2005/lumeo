@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { getDatabase, ref, onValue, set, get, push } from 'firebase/database';
 import { NgForOf, NgIf } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
+import {TrendingTopicsComponent} from './trending-topics/trending-topics.component';
 
 interface User {
   userId: string;
@@ -11,7 +12,7 @@ interface User {
 
 @Component({
   selector: 'app-explore',
-  imports: [FormsModule, NgForOf, NgIf],
+  imports: [FormsModule, NgForOf, NgIf, TrendingTopicsComponent],
   templateUrl: './explore.component.html',
   styleUrl: './explore.component.scss',
 })
@@ -84,8 +85,9 @@ export class ExploreComponent implements OnInit {
 
     await set(newNotificationKey, {
       type: 'follow',
-      senderUsername,
+      senderUsername: senderUsername,
       read: false,
+      timestamp: Date.now(),
     });
   }
 

@@ -16,6 +16,7 @@ export interface Notification {
 })
 export class NotificationService {
   private db = getDatabase();
+  private notificationsRef;
 
   constructor(private auth: Auth) {
     this.notificationsRef = ref(this.db, 'users');
@@ -43,13 +44,5 @@ export class NotificationService {
         }
       });
     });
-  }
-
-  async markNotificationAsRead(userId: string, notificationId: string) {
-    const notificationRef = ref(
-      this.db,
-      `users/${userId}/notifications/${notificationId}`,
-    );
-    await set(notificationRef, { read: true });
   }
 }

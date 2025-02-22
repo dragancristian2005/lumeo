@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 
 export interface Notification {
   type: string;
-  message: string;
   senderUsername: string;
   read: boolean;
   timestamp: number;
@@ -44,13 +43,5 @@ export class NotificationService {
         }
       });
     });
-  }
-
-  async markNotificationAsRead(userId: string, notificationId: string) {
-    const notificationRef = ref(
-      this.db,
-      `users/${userId}/notifications/${notificationId}`,
-    );
-    await set(notificationRef, { read: true });
   }
 }
