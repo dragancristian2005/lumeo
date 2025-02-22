@@ -2,7 +2,7 @@
   <h1 class="font-sans text-title font-bold">Explore</h1>
   <input
     type="text"
-    class="w-full h-12 mt-3 px-5 bg-gray-100 rounded-2xl outline-none"
+    class="w-full h-12 mt-3 px-5 bg-gray-100 rounded-2xl"
     placeholder="Search topics, people, or posts"
   />
 </main>

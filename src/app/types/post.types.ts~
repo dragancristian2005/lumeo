@@ -8,7 +8,6 @@ export interface Post {
   authorId: string;
   postTitle: string;
   content: string;
-  topics: string[];
   timestamp: number;
   image?: string;
   likes: Record<string, boolean>;

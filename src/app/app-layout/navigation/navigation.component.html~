@@ -78,6 +78,7 @@
         </svg>
       </a>
     </li>
+
     <li>
       <a
         routerLink="/notifications"
@@ -115,6 +116,7 @@
         </svg>
       </a>
     </li>
+
     <li>
       <a
         routerLink="/messages"
@@ -152,6 +154,7 @@
         </svg>
       </a>
     </li>
+
     <li>
       <a
         routerLink="/saved"
@@ -198,6 +201,7 @@
         +
       </button>
     </li>
+
     <li>
       <a
         routerLink="/profile"
@@ -244,14 +248,14 @@
   (click)="closeModal()"
 >
   <div
-    class="bg-white p-6 rounded-2xl w-1/2"
+    class="bg-white p-6 rounded-2xl w-1/2 relative"
     (click)="$event.stopPropagation()"
   >
     <h2 class="font-sans text-title font-semibold mb-4">Create a New Post</h2>
     <form (ngSubmit)="onSubmit()" class="flex flex-col h-full">
       <textarea
         [(ngModel)]="postTitle"
-        name="content"
+        name="title"
         placeholder="What's on your mind?"
         required
         class="w-full min-h-14 p-3 border border-gray-300 rounded-xl mb-4 focus:outline-none focus:ring-1 focus:ring-primary"
@@ -263,14 +267,41 @@
         required
         class="w-full min-h-36 p-3 border border-gray-300 rounded-xl mb-4 focus:outline-none focus:ring-1 focus:ring-primary"
       ></textarea>
+
+      <div class="mb-4">
+        <h3 class="font-sans text-text font-semibold mb-2">Select Topics:</h3>
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          (ngModelChange)="({ standalone: true })"
+          class="w-full h-10 px-5 bg-gray-100 rounded-xl outline-none mb-5"
+          placeholder="Search topics"
+        />
+        <div class="flex flex-wrap gap-2 max-h-36 overflow-y-auto">
+          <button
+            *ngFor="let topic of filteredTopics"
+            type="button"
+            (click)="toggleTopic(topic)"
+            [ngClass]="{
+              'bg-primary text-white': selectedTopics.includes(topic),
+              'bg-gray-200 text-gray-700': !selectedTopics.includes(topic),
+            }"
+            class="px-3 py-1 rounded-lg text-sm transition-all"
+          >
+            {{ topic }}
+          </button>
+        </div>
+      </div>
+
       <button
         type="submit"
-        [disabled]="!postContent && !postTitle"
+        [disabled]="!postContent || !postTitle || selectedTopics.length === 0"
         class="w-full py-2 bg-primary text-white rounded-xl cursor-pointer disabled:bg-gray-400"
       >
         Post
       </button>
     </form>
+
     <button
       class="absolute top-4 right-4 text-gray-200 hover:text-black"
       (click)="closeModal()"
