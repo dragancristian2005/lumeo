@@ -15,7 +15,10 @@
   </button>
 </div>
 
-<div *ngIf="activeTab === 'posts'" class="overflow-y-auto max-h-[45vh] flex flex-col-reverse">
+<div
+  *ngIf="activeTab === 'posts'"
+  class="overflow-y-auto max-h-[45vh] flex flex-col-reverse"
+>
   <div *ngIf="userPosts.length > 0; else noPosts">
     <div *ngFor="let post of userPosts">
       <div
@@ -24,8 +27,8 @@
         <p class="font-sans text-text text-secondaryText font-semibold">
           {{ post.timestamp | relativeTime }}
         </p>
-        <p class="font-sans text-title font-semibold">{{ post.postTitle }}</p>
-        <p class="font-sans text-subtitle text-tertiaryText">
+        <p class="font-sans text-subtitle font-semibold">{{ post.postTitle }}</p>
+        <p class="font-sans text-tertiaryText">
           {{ post.content }}
         </p>
         <div class="flex flex-row items-center gap-2">
