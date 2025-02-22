@@ -85,8 +85,8 @@ export class ExploreComponent implements OnInit {
       `users/${userId}/followers/${this.currentUserId}`,
     );
 
-    await set(followingRef, null);
-    await set(followersRef, null);
+    await set(followingRef, null); // Remove from following list
+    await set(followersRef, null); // Remove from followers list
 
     console.log(`Unfollowed user: ${userId}`);
   }
