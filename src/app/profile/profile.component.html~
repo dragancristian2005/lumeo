@@ -19,12 +19,12 @@
   <div class="w-full mt-3 mx-2">
     <app-user-metrics />
   </div>
-  <div class="w-full mt-3 mx-2  overflow-y-auto">
+  <div class="w-full mt-3 mx-2 overflow-y-auto">
     <app-user-posts />
   </div>
   <button
     (click)="logout()"
-    class="mt-5 mx-2 w-fit cursor-pointer bg-primary text-text text-white font-semibold px-5 py-2 rounded-xl"
+    class=" mx-2 w-fit cursor-pointer bg-primary text-text text-white font-semibold px-5 py-2 rounded-xl"
   >
     Logout
   </button>
