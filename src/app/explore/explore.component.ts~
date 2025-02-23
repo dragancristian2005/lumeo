@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { getDatabase, ref, onValue, set, get, push } from 'firebase/database';
 import { NgForOf, NgIf } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
-import {TrendingTopicsComponent} from './trending-topics/trending-topics.component';
+import { TrendingTopicsComponent } from './trending-topics/trending-topics.component';
 
 interface User {
   userId: string;
@@ -24,6 +24,11 @@ export class ExploreComponent implements OnInit {
 
   db = getDatabase();
   usersRef = ref(this.db, 'users');
+
+  /// make a postsRef and display all posts that contain the search query in the content
+
+  /// make a topicRef and display all topics that contain the search query in the name of the topic
+  /// after that display all posts that contain the topic in the popular
 
   ngOnInit() {
     this.fetchFollowData();

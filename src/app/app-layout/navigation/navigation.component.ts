@@ -3,7 +3,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { getDatabase, ref, push, set } from 'firebase/database';
+import { getDatabase, ref, push, set, get } from 'firebase/database';
 import { Auth } from '@angular/fire/auth';
 import { Post } from '../../types/post.types';
 
@@ -217,10 +217,15 @@ export class NavigationComponent {
       }
 
       const userId = currentUser.uid;
+      const usernameRef = ref(this.db, `users/${userId}/username`);
+      const usernameSnapshot = await get(usernameRef);
+      const username = usernameSnapshot.val();
+
       const timestamp = Date.now();
 
       const post: Post = {
         authorId: userId,
+        authorUsername: username,
         postTitle: this.postTitle,
         content: this.postContent,
         topics: this.selectedTopics,

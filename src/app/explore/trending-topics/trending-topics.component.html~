@@ -6,15 +6,61 @@
   >
     <li
       *ngFor="let item of topTopics"
-      class="mt-2 bg-secondary w-full h-44 py-4 px-8 rounded-2xl flex flex-col justify-center"
+      class="mt-2 bg-secondary w-full h-44 rounded-2xl flex flex-col justify-center"
     >
-      <p class="font-sans text-text font-semibold text-gray-700">
-        {{ item.count }} posts
-      </p>
-      <h1 class="font-sans text-subtitle font-semibold">#{{ item.topic }}</h1>
+      <button
+        class="w-full h-full flex flex-col items-start justify-center px-4"
+        (click)="selectTopic(item.topic)"
+      >
+        <p class="font-sans text-text font-semibold text-gray-700">
+          {{ item.count }} posts
+        </p>
+        <h1 class="font-sans text-subtitle font-semibold">
+          #{{ item.topic | camelCase }}
+        </h1>
+      </button>
     </li>
   </ul>
-  <p *ngIf="topTopics.length === 0" class="font-sans px-4 text-tertiaryText ">
+
+  <button
+    *ngIf="selectedTopic"
+    (click)="clearSelectedTopic()"
+    class="mt-4 bg-primary px-4 py-2 rounded-xl font-sans text-white"
+  >
+    Clear Topic Selection
+  </button>
+
+  <p *ngIf="topTopics.length === 0" class="font-sans px-4 text-tertiaryText">
     No topics found
   </p>
+
+  <h1 class="font-sans text-subtitle mt-4">Popular Posts</h1>
+  <ul
+    class="flex flex-col w-full justify-between gap-4 max-h-80 overflow-y-scroll mt-4"
+  >
+    <li
+      *ngFor="let post of filteredPosts"
+      class="bg-secondary py-4 px-8 rounded-2xl"
+    >
+      <h1 class="font-sans font-semibold mb-4">
+        &#64;{{ post.authorUsername }}
+      </h1>
+      <h3 class="font-sans text-subtitle font-semibold">
+        {{ post.postTitle }}
+      </h3>
+      <p class="font-sans">{{ post.content }}</p>
+      <div class="flex flex-row items-center gap-2">
+        <button
+          class="bg-primary px-4 py-1.5 rounded-xl font-sans font-semibold text-white mt-3"
+        >
+          Like
+        </button>
+        <button
+          class="bg-gray-100 px-4 py-1.5 rounded-xl font-sans font-semibold text-primary mt-3"
+        >
+          Share
+        </button>
+      </div>
+    </li>
+  </ul>
 </main>

@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { getDatabase, onValue, ref } from 'firebase/database';
 import { NgForOf, NgIf } from '@angular/common';
+import { CamelCasePipe } from './camel-case.pipe';
 
 interface Post {
   authorId: string;
+  authorUsername: string;
   content: string;
   postTitle: string;
   timestamp: number;
@@ -15,13 +17,16 @@ interface Post {
   selector: 'app-trending-topics',
   templateUrl: './trending-topics.component.html',
   styleUrl: './trending-topics.component.scss',
-  imports: [NgForOf, NgIf],
+  imports: [NgForOf, NgIf, CamelCasePipe],
 })
 export class TrendingTopicsComponent implements OnInit {
   userId = '';
   followedUsersIds: string[] = [];
   topicCounts: Record<string, number> = {};
   topTopics: { topic: string; count: number }[] = [];
+  popularPosts: Post[] = [];
+  selectedTopic = '';
+  filteredPosts: Post[] = [];
 
   constructor(private auth: Auth) {}
 
@@ -36,16 +41,19 @@ export class TrendingTopicsComponent implements OnInit {
           const following = snapshot.val();
           this.followedUsersIds = following ? Object.keys(following) : [];
         });
+
         if (this.followedUsersIds.length > 0) {
           const postsRef = ref(this.db, 'posts');
           onValue(postsRef, (snapshot) => {
             const posts = snapshot.val();
             if (posts) {
               const postArray = Object.values(posts) as Post[];
+              this.popularPosts = postArray.filter(
+                (post) => post.authorId !== this.userId,
+              );
 
               this.topicCounts = {};
-
-              postArray.forEach((post: Post) => {
+              this.popularPosts.forEach((post: Post) => {
                 post.topics.forEach((topic) => {
                   this.topicCounts[topic] = (this.topicCounts[topic] || 0) + 1;
                 });
@@ -55,10 +63,32 @@ export class TrendingTopicsComponent implements OnInit {
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 3)
                 .map(([topic, count]) => ({ topic, count }));
+
+              this.filterPostsByTopic('');
             }
           });
         }
       }
     });
+  }
+
+  selectTopic(topic: string) {
+    this.selectedTopic = topic;
+    this.filterPostsByTopic(topic);
+  }
+
+  filterPostsByTopic(topic: string) {
+    if (topic === '') {
+      this.filteredPosts = this.popularPosts;
+    } else {
+      this.filteredPosts = this.popularPosts.filter((post) =>
+        post.topics.includes(topic),
+      );
+    }
+  }
+
+  clearSelectedTopic() {
+    this.selectedTopic = '';
+    this.filterPostsByTopic('');
   }
 }

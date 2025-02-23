@@ -25,6 +25,11 @@ export class ExploreComponent implements OnInit {
   db = getDatabase();
   usersRef = ref(this.db, 'users');
 
+  /// make a postsRef and display all posts that contain the search query in the content
+
+  /// make a topicRef and display all topics that contain the search query in the name of the topic
+  /// after that display all posts that contain the topic in the popular posts section
+
   ngOnInit() {
     this.fetchFollowData();
   }

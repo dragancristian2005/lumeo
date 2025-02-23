@@ -6,6 +6,7 @@ interface Comment {
 
 export interface Post {
   authorId: string;
+  authorUsername: string;
   postTitle: string;
   content: string;
   topics: string[];
