@@ -4,6 +4,8 @@ import { getDatabase, ref, onValue, set, get, push } from 'firebase/database';
 import { NgForOf, NgIf } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
 import { TrendingTopicsComponent } from './trending-topics/trending-topics.component';
+import { Post } from '../types/post.types';
+import { PostCardComponent } from './post-card/post-card.component';
 
 interface User {
   userId: string;
@@ -12,20 +14,26 @@ interface User {
 
 @Component({
   selector: 'app-explore',
-  imports: [FormsModule, NgForOf, NgIf, TrendingTopicsComponent],
+  imports: [
+    FormsModule,
+    NgForOf,
+    NgIf,
+    TrendingTopicsComponent,
+    PostCardComponent,
+  ],
   templateUrl: './explore.component.html',
   styleUrl: './explore.component.scss',
 })
 export class ExploreComponent implements OnInit {
   searchQuery = '';
   searchResults: User[] = [];
+  postsSearchResults: Post[] = [];
   currentUserId: string | null = null;
   isUserFollowing: Record<string, boolean> = {};
 
   db = getDatabase();
   usersRef = ref(this.db, 'users');
-
-  /// make a postsRef and display all posts that contain the search query in the content
+  postsRef = ref(this.db, 'posts');
 
   /// make a topicRef and display all topics that contain the search query in the name of the topic
   /// after that display all posts that contain the topic in the popular posts section
@@ -38,6 +46,17 @@ export class ExploreComponent implements OnInit {
     this.auth.onAuthStateChanged((user) => {
       if (user) {
         this.currentUserId = user.uid;
+
+        onValue(this.postsRef, (snapshot) => {
+          if (snapshot.exists()) {
+            const allPosts = Object.values(snapshot.val()) as Post[];
+            this.postsSearchResults = allPosts.filter(
+              (post) => post.authorId !== this.currentUserId,
+            );
+          } else {
+            this.postsSearchResults = [];
+          }
+        });
       }
     });
 
@@ -60,6 +79,11 @@ export class ExploreComponent implements OnInit {
       (user) =>
         user.username.toLowerCase().includes(this.searchQuery.toLowerCase()) &&
         user.userId !== this.currentUserId,
+    );
+  }
+  get filteredPostsSearchResults() {
+    return this.postsSearchResults.filter((post) =>
+      post.content.toLowerCase().includes(this.searchQuery.toLowerCase()),
     );
   }
 

@@ -8,12 +8,19 @@
     placeholder="Search topics, people, or posts"
   />
   <div
-    *ngIf="filteredSearchResults.length > 0 && searchQuery"
+    *ngIf="
+      (filteredSearchResults.length > 0 ||
+        filteredPostsSearchResults.length > 0) &&
+      searchQuery
+    "
     class="mt-2 mx-2"
   >
     <div class="w-full">
       <h1 class="font-sans font-semibold text-subtitle">Search People</h1>
-      <ul class="mx-2 max-h-48 overflow-y-auto w-full">
+      <ul
+        class="mx-2 max-h-48 overflow-y-auto w-full"
+        *ngIf="filteredSearchResults.length > 0"
+      >
         <li
           *ngFor="let searchResult of filteredSearchResults"
           class="mt-4 w-full"
@@ -71,13 +78,29 @@
           </div>
         </li>
       </ul>
+      <div *ngIf="filteredSearchResults.length === 0">
+        <p class="font-sans">No people found</p>
+      </div>
     </div>
+
     <div class="w-full">
       <h1 class="font-sans font-semibold text-subtitle mt-4">Search Posts</h1>
+      <ul class="mx-2 max-h-96 overflow-y-auto w-full">
+        <li
+          class="mt-4 w-full"
+          *ngFor="let postsSearchResult of filteredPostsSearchResults"
+        >
+          <app-post-card [post]="postsSearchResult" />
+        </li>
+      </ul>
     </div>
   </div>
   <div
-    *ngIf="filteredSearchResults.length === 0 && searchQuery"
+    *ngIf="
+      filteredSearchResults.length === 0 &&
+      filteredPostsSearchResults.length === 0 &&
+      searchQuery
+    "
     class="mt-2 mx-4"
   >
     <p class="font-sans">No results found</p>

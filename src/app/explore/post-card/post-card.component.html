@@ -1,0 +1,19 @@
+<main class="w-full h-full bg-secondary py-4 px-8 rounded-2xl">
+  <h1 class="font-sans font-semibold mb-4">&#64;{{ post.authorUsername }}</h1>
+  <h3 class="font-sans text-subtitle font-semibold">
+    {{ post.postTitle }}
+  </h3>
+  <p class="font-sans">{{ post.content }}</p>
+  <div class="flex flex-row items-center gap-2">
+    <button
+      class="bg-primary px-4 py-1.5 rounded-xl font-sans font-semibold text-white mt-3"
+    >
+      Like
+    </button>
+    <button
+      class="bg-gray-100 px-4 py-1.5 rounded-xl font-sans font-semibold text-primary mt-3"
+    >
+      Share
+    </button>
+  </div>
+</main>
