@@ -35,9 +35,6 @@ export class ExploreComponent implements OnInit {
   usersRef = ref(this.db, 'users');
   postsRef = ref(this.db, 'posts');
 
-  /// make a topicRef and display all topics that contain the search query in the name of the topic
-  /// after that display all posts that contain the topic in the popular posts section
-
   ngOnInit() {
     this.fetchFollowData();
   }
@@ -46,6 +43,17 @@ export class ExploreComponent implements OnInit {
     this.auth.onAuthStateChanged((user) => {
       if (user) {
         this.currentUserId = user.uid;
+
+        onValue(this.postsRef, (snapshot) => {
+          if (snapshot.exists()) {
+            const allPosts = Object.values(snapshot.val()) as Post[];
+            this.postsSearchResults = allPosts.filter(
+              (post) => post.authorId !== this.currentUserId,
+            );
+          } else {
+            this.postsSearchResults = [];
+          }
+        });
       }
     });
 

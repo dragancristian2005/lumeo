@@ -35,9 +35,6 @@ export class ExploreComponent implements OnInit {
   usersRef = ref(this.db, 'users');
   postsRef = ref(this.db, 'posts');
 
-  /// make a topicRef and display all topics that contain the search query in the name of the topic
-  /// after that display all posts that contain the topic in the popular posts section
-
   ngOnInit() {
     this.fetchFollowData();
   }
@@ -115,7 +112,6 @@ export class ExploreComponent implements OnInit {
     await set(newNotificationKey, {
       type: 'follow',
       senderUsername: senderUsername,
-      read: false,
       timestamp: Date.now(),
     });
   }

@@ -4,7 +4,7 @@ import { Post } from '../../types/post.types';
 import { FirebaseService } from '../../firebase/firebase.service';
 import { Auth } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
-import {RelativeTimePipe} from '../relative-time.pipe';
+import { RelativeTimePipe } from '../relative-time.pipe';
 
 @Component({
   selector: 'app-user-posts',
@@ -18,7 +18,6 @@ export class UserPostsComponent implements OnInit, OnDestroy {
   userPosts: Post[] = [];
   likedPosts: Post[] = [];
   private userPostsSubscription: Subscription | null = null;
-  private userLikedPostsSubscription: Subscription | null = null;
 
   constructor(
     private firebaseService: FirebaseService,

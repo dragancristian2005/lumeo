@@ -30,8 +30,7 @@ export class HomeComponent {
                 postId,
                 postValue: postData as Post,
               }))
-              .filter((post) => post.postValue.authorId !== this.currentUserId)
-              .sort((a, b) => b.postValue.timestamp - a.postValue.timestamp);
+              .filter((post) => post.postValue.authorId !== this.currentUserId);
           } else {
             this.posts = [];
           }

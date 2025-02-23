@@ -16,10 +16,10 @@
     &#64;{{ userData.username }}
   </p>
   <p class="font-sans text-text text-gray-400 mt-1">{{ userData.bio }}</p>
-  <div class="w-full h-1/5 mt-3 mx-2">
+  <div class="w-full mt-3 mx-2">
     <app-user-metrics />
   </div>
-  <div class="w-full mt-3 mx-2 ">
+  <div class="w-full mt-3 mx-2  overflow-y-auto">
     <app-user-posts />
   </div>
   <button

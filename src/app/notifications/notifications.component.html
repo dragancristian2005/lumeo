@@ -23,13 +23,15 @@
         class="px-4 py-2 max-h-96 overflow-y-auto"
       >
         <div *ngIf="notification.type === 'like'">
-          <p class="font-sans font-semibold">
-            &#64;{{ notification.senderUsername }} liked your post
+          <p class="font-sans">
+            <strong>&#64;{{ notification.senderUsername }}</strong> liked your
+            post
           </p>
         </div>
         <div *ngIf="notification.type === 'comment'">
-          <p class="font-sans font-semibold">
-            &#64;{{ notification.senderUsername }} commented on your post
+          <p class="font-sans">
+            <strong>&#64;{{ notification.senderUsername }}</strong> commented on
+            your post
           </p>
         </div>
         <div

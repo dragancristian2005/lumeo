@@ -9,7 +9,7 @@
           [class.border-black]="activeTab === tab.key"
           [class.text-gray-500]="activeTab !== tab.key"
           [class.text-black]="activeTab === tab.key"
-          [class.border-b-4]="activeTab === tab.key"
+          [class.border-b-2]="activeTab === tab.key"
           (click)="setTab(tab.key)"
         >
           {{ tab.label }}
@@ -23,13 +23,13 @@
         class="px-4 py-2 max-h-96 overflow-y-auto"
       >
         <div *ngIf="notification.type === 'like'">
-          <p class="font-sans font-semibold">
-            &#64;{{ notification.senderUsername }} liked your post
+          <p class="font-sans ">
+            <strong>&#64;{{ notification.senderUsername }}</strong> liked your post
           </p>
         </div>
         <div *ngIf="notification.type === 'comment'">
-          <p class="font-sans font-semibold">
-            &#64;{{ notification.senderUsername }} commented on your post
+          <p class="font-sans ">
+            <strong>&#64;{{ notification.senderUsername }}</strong> commented on your post
           </p>
         </div>
         <div
