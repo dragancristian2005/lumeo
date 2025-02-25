@@ -10,14 +10,15 @@ import {
   update,
 } from 'firebase/database';
 import { remove } from '@angular/fire/database';
-import { NgForOf, NgIf } from '@angular/common';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Comments } from '../../types/comments.types';
 import { RelativeTimePipe } from '../../profile/relative-time.pipe';
+import { BookmarkService } from '../../services/bookmark.service';
 
 @Component({
   selector: 'app-home-post-card',
-  imports: [NgIf, FormsModule, NgForOf, RelativeTimePipe],
+  imports: [NgIf, FormsModule, NgForOf, RelativeTimePipe, NgClass],
   templateUrl: './home-post-card.component.html',
   styleUrl: './home-post-card.component.scss',
 })
@@ -29,8 +30,12 @@ export class HomePostCardComponent implements OnInit {
   currentUserId: string | null = null;
   commentContent = '';
   comments: Comments[] = [];
+  isBookmarked = false;
 
-  constructor(private auth: Auth) {
+  constructor(
+    private auth: Auth,
+    private bookmarkService: BookmarkService,
+  ) {
     this.auth.onAuthStateChanged((user) => {
       if (user) {
         this.currentUserId = user.uid;
@@ -40,10 +45,14 @@ export class HomePostCardComponent implements OnInit {
 
   db = getDatabase();
 
-  ngOnInit() {
+  async ngOnInit() {
     this.getLikesCount(this.postId);
     this.getCommentsCount(this.postId);
     this.getPostComments();
+
+    this.isBookmarked = !!(await this.bookmarkService.isBookmarked(
+      this.postId,
+    ));
   }
 
   toggleLike(postId: string) {
@@ -122,5 +131,19 @@ export class HomePostCardComponent implements OnInit {
     };
 
     push(notificationRef, newNotification);
+  }
+
+  async toggleBookmark() {
+    if (!this.currentUserId) return;
+    try {
+      this.isBookmarked = !!(await this.bookmarkService.toggleBookmark(
+        this.postId,
+        this.postValue.authorUsername,
+        this.postValue.postTitle,
+        this.postValue.content,
+      ));
+    } catch (error) {
+      console.error('Bookmark error:', error);
+    }
   }
 }

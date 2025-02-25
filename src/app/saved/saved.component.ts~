@@ -4,7 +4,7 @@ import { Auth } from '@angular/fire/auth';
 import { getDatabase, onValue, ref } from 'firebase/database';
 import { Post } from '../types/post.types';
 import { NgForOf, NgIf } from '@angular/common';
-import { PostCardComponent } from '../explore/post-card/post-card.component';
+import {PostCardComponent} from '../explore/post-card/post-card.component';
 
 @Component({
   selector: 'app-saved',
