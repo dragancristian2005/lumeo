@@ -6,12 +6,9 @@
     class="w-full h-10 mt-2 px-5 bg-gray-100 rounded-xl"
     placeholder="Search your bookmarks"
   />
-  <ul
-    class="w-100 px-10 mt-5  flex flex-col gap-4"
-    *ngIf="bookmarks.length > 0"
-  >
+  <ul class="w-100 px-10 mt-5 flex flex-col gap-4" *ngIf="bookmarks.length > 0">
     <li *ngFor="let bookmark of bookmarks">
-      <app-post-card [post]="bookmark" />
+      <app-post-card [postValue]="bookmark.postValue" [postId]="bookmark.postId" />
     </li>
   </ul>
 </main>

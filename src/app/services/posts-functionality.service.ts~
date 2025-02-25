@@ -1,0 +1,115 @@
+import { Injectable } from '@angular/core';
+import {
+  getDatabase,
+  onValue,
+  ref,
+  update,
+  get,
+  push,
+  remove,
+} from 'firebase/database';
+import { Auth } from '@angular/fire/auth';
+import { Post } from '../types/post.types';
+import { BehaviorSubject } from 'rxjs';
+import {Comments} from '../types/comments.types';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class PostsFunctionalityService {
+  private likesCountSubject = new BehaviorSubject<number>(0);
+  likesCount$ = this.likesCountSubject.asObservable();
+
+  private commentsCountSubject = new BehaviorSubject<number>(0);
+  commentsCount$ = this.commentsCountSubject.asObservable();
+
+  private commentsSubject = new BehaviorSubject<Comments[]>([]);
+  comments$ = this.commentsSubject.asObservable();
+
+  currentUserId: string | null = null;
+  db = getDatabase();
+
+  constructor(private auth: Auth) {
+    this.auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.currentUserId = user.uid;
+      }
+    });
+  }
+
+  toggleLike(postId: string, postValue: Post) {
+    if (!this.currentUserId) return;
+
+    const userLikeRef = ref(
+      this.db,
+      `posts/${postId}/likes/${this.currentUserId}`,
+    );
+    get(userLikeRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        remove(userLikeRef);
+      } else {
+        update(ref(this.db, `posts/${postId}/likes`), {
+          [this.currentUserId!]: true,
+        }).then(() => {
+          this.sendNotification(postValue.authorId, 'like', postValue);
+        });
+      }
+    });
+  }
+
+  addComment(postId: string, commentContent: string, postValue: Post) {
+    if (!this.currentUserId || !postValue) return;
+
+    const commentRef = ref(this.db, `posts/${postId}/comments`);
+    const newComment = {
+      authorId: this.currentUserId,
+      authorUsername: postValue.authorUsername,
+      content: commentContent,
+      timestamp: Date.now(),
+    };
+
+    push(commentRef, newComment).then(() => {
+      this.sendNotification(postValue.authorId, 'comment', postValue);
+    });
+  }
+
+  getPostComments(postId: string) {
+    const commentsRef = ref(this.db, `posts/${postId}/comments`);
+    onValue(commentsRef, (snapshot) => {
+      if (snapshot.exists()) {
+        this.commentsSubject.next(Object.values(snapshot.val()));
+      } else {
+        this.commentsSubject.next([]);
+      }
+    });
+  }
+
+  getLikesCount(postId: string) {
+    const likesRef = ref(this.db, `posts/${postId}/likes`);
+    onValue(likesRef, (snapshot) => {
+      const count = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
+      this.likesCountSubject.next(count);
+    });
+  }
+
+  getCommentsCount(postId: string) {
+    const commentsRef = ref(this.db, `posts/${postId}/comments`);
+    onValue(commentsRef, (snapshot) => {
+      const count = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
+      this.commentsCountSubject.next(count);
+    });
+  }
+
+  sendNotification(userId: string, type: 'like' | 'comment', postValue: Post) {
+    if (!this.currentUserId) return;
+
+    const notificationRef = ref(this.db, `users/${userId}/notifications`);
+    const newNotification = {
+      senderUsername: postValue.authorUsername,
+      timestamp: Date.now(),
+      type: type,
+    };
+
+    push(notificationRef, newNotification);
+  }
+}

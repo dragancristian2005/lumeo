@@ -120,7 +120,6 @@ export class PostCardComponent implements OnInit {
     push(commentRef, newComment).then(() => {
       this.sendNotification(this.postValue.authorId, 'comment');
     });
-    this.commentContent = '';
   }
 
   async toggleBookmark() {

@@ -15,7 +15,7 @@ import { PostCardComponent } from '../explore/post-card/post-card.component';
 export class SavedComponent implements OnInit {
   currentUserId: string | null = null;
   searchQuery = '';
-  bookmarks: Post[] = [];
+  bookmarks: { postId: string; postValue: Post }[] = [];
 
   constructor(private auth: Auth) {
     this.auth.onAuthStateChanged((user) => {
@@ -30,8 +30,13 @@ export class SavedComponent implements OnInit {
     const bookmarksRef = ref(this.db, `users/${this.currentUserId}/bookmarks`);
     onValue(bookmarksRef, (snapshot) => {
       if (snapshot.exists()) {
-        this.bookmarks = Object.values(snapshot.val());
-        console.log(this.bookmarks);
+        this.bookmarks = Object.entries(snapshot.val())
+          .map(([postId, postData]) => ({
+            postId,
+            postValue: postData as Post,
+          }))
+          .filter((post) => post.postValue.authorId !== this.currentUserId)
+          .sort((a, b) => b.postValue.timestamp - a.postValue.timestamp);
       } else {
         this.bookmarks = [];
       }
