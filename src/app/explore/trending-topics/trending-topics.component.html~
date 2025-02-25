@@ -36,7 +36,9 @@
 
   <h1 class="font-sans text-subtitle mt-4">Popular Posts</h1>
   <ul class="flex flex-col w-full justify-between gap-4 overflow-y-scroll mt-4">
-    <li *ngFor="let post of filteredPosts">
+    <li
+      *ngFor="let post of filteredPosts"
+    >
       <app-post-card [postValue]="post.postValue" [postId]="post.postId" />
     </li>
   </ul>

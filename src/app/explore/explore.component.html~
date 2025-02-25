@@ -108,7 +108,7 @@
   >
     <p class="font-sans">No results found</p>
   </div>
-  <div *ngIf="!searchQuery" class="mt-2 overflow-y-auto">
-    <app-trending-topics />
-  </div>
+    <div *ngIf="!searchQuery" class="mt-2 overflow-y-auto">
+      <app-trending-topics />
+    </div>
 </main>

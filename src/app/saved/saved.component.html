@@ -3,15 +3,24 @@
   <input
     type="text"
     [(ngModel)]="searchQuery"
-    class="w-full h-10 mt-2 px-5 bg-gray-100 rounded-xl"
+    class="w-full h-10 mt-2 px-5 bg-gray-100 rounded-xl outline-none"
     placeholder="Search your bookmarks"
   />
-  <ul class="w-100 px-10 mt-5 flex flex-col gap-4" *ngIf="bookmarks.length > 0">
-    <li *ngFor="let bookmark of bookmarks">
+  <ul
+    class="w-100 px-10 mt-5 flex flex-col gap-4"
+    *ngIf="filteredBookmarks.length > 0"
+  >
+    <li *ngFor="let bookmark of filteredBookmarks">
       <app-post-card
         [postValue]="bookmark.postValue"
         [postId]="bookmark.postId"
       />
     </li>
   </ul>
+  <p
+    *ngIf="filteredBookmarks.length === 0"
+    class="text-gray-500 text-center mt-4"
+  >
+    No matching bookmarks found.
+  </p>
 </main>

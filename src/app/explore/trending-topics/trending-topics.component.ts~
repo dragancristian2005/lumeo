@@ -49,7 +49,7 @@ export class TrendingTopicsComponent implements OnInit {
   }
 
   fetchPosts() {
-    if (!this.followedUsersIds.length) return;
+    if (!this.followedUsersIds.length) return; 
 
     const postsRef = ref(this.db, 'posts');
     onValue(postsRef, (snapshot) => {

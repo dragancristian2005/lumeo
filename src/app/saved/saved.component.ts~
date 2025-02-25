@@ -48,10 +48,9 @@ export class SavedComponent implements OnInit {
       return this.bookmarks;
     }
     const query = this.searchQuery.toLowerCase();
-    return this.bookmarks.filter(
-      (bookmark) =>
-        bookmark.postValue.postTitle.toLowerCase().includes(query) ||
-        bookmark.postValue.content.toLowerCase().includes(query),
+    return this.bookmarks.filter((bookmark) =>
+      bookmark.postValue.postTitle.toLowerCase().includes(query) ||
+      bookmark.postValue.content.toLowerCase().includes(query)
     );
   }
 }

@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { Auth, user } from '@angular/fire/auth';
+import { Auth } from '@angular/fire/auth';
 import { getDatabase, onValue, ref } from 'firebase/database';
 import { Post } from '../types/post.types';
 import { NgForOf } from '@angular/common';
-import { HomePostCardComponent } from './home-post-card/home-post-card.component';
+import { PostCardComponent } from '../explore/post-card/post-card.component';
 
 @Component({
   selector: 'app-home',
-  imports: [NgForOf, HomePostCardComponent],
+  imports: [NgForOf, PostCardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

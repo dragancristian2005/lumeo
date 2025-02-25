@@ -36,9 +36,10 @@ export class PostCardComponent implements OnInit {
     private auth: Auth,
     private bookmarkService: BookmarkService,
   ) {
-    this.auth.onAuthStateChanged((user) => {
+    this.auth.onAuthStateChanged(async (user) => {
       if (user) {
         this.currentUserId = user.uid;
+        await this.loadBookmarkStatus();
       }
     });
   }
@@ -47,7 +48,9 @@ export class PostCardComponent implements OnInit {
     this.getLikesCount(this.postId);
     this.getCommentsCount(this.postId);
     this.getPostComments();
+  }
 
+  async loadBookmarkStatus() {
     this.isBookmarked = !!(await this.bookmarkService.isBookmarked(
       this.postId,
     ));

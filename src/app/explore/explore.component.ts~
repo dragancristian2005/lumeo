@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { getDatabase, ref, onValue, set, get, push } from 'firebase/database';
+import { getDatabase, ref, onValue, set, get } from 'firebase/database';
 import { NgForOf, NgIf } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
 import { TrendingTopicsComponent } from './trending-topics/trending-topics.component';
@@ -27,7 +27,7 @@ interface User {
 export class ExploreComponent implements OnInit {
   searchQuery = '';
   searchResults: User[] = [];
-  postsSearchResults: Post[] = [];
+  postsSearchResults: { postId: string; postValue: Post }[] = [];
   currentUserId: string | null = null;
   isUserFollowing: Record<string, boolean> = {};
 
@@ -36,37 +36,52 @@ export class ExploreComponent implements OnInit {
   postsRef = ref(this.db, 'posts');
 
   ngOnInit() {
-    this.fetchFollowData();
+    this.auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.currentUserId = user.uid;
+        this.fetchFollowData();
+        this.fetchPosts();
+        this.fetchUsers();
+      }
+    });
   }
 
   constructor(private auth: Auth) {
     this.auth.onAuthStateChanged((user) => {
       if (user) {
         this.currentUserId = user.uid;
-
-        onValue(this.postsRef, (snapshot) => {
-          if (snapshot.exists()) {
-            const allPosts = Object.values(snapshot.val()) as Post[];
-            this.postsSearchResults = allPosts.filter(
-              (post) => post.authorId !== this.currentUserId,
-            );
-          } else {
-            this.postsSearchResults = [];
-          }
-        });
       }
     });
+  }
 
-    onValue(this.usersRef, (snapshot) => {
+  fetchUsers() {
+    get(this.usersRef).then((snapshot) => {
       if (snapshot.exists()) {
         this.searchResults = Object.entries(snapshot.val()).map(
-          ([userId, user]): User => ({
+          ([userId, user]) => ({
             userId,
             username: (user as { username: string }).username,
           }),
         );
+        console.log(this.searchResults);
       } else {
         this.searchResults = [];
+      }
+    });
+  }
+
+  fetchPosts() {
+    get(this.postsRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        this.postsSearchResults = Object.entries(snapshot.val())
+          .map(([postId, postData]) => ({
+            postId,
+            postValue: postData as Post,
+          }))
+          .filter((post) => post.postValue.authorId !== this.currentUserId)
+          .sort((a, b) => b.postValue.timestamp - a.postValue.timestamp);
+      } else {
+        this.postsSearchResults = [];
       }
     });
   }
@@ -80,7 +95,9 @@ export class ExploreComponent implements OnInit {
   }
   get filteredPostsSearchResults() {
     return this.postsSearchResults.filter((post) =>
-      post.content.toLowerCase().includes(this.searchQuery.toLowerCase()),
+      post.postValue.content
+        .toLowerCase()
+        .includes(this.searchQuery.toLowerCase()),
     );
   }
 
@@ -99,22 +116,7 @@ export class ExploreComponent implements OnInit {
     await set(followingRef, true);
     await set(followersRef, true);
 
-    const currentUserRef = ref(this.db, `users/${this.currentUserId}`);
-    const currentUserSnapshot = await get(currentUserRef);
-    const currentUserData = currentUserSnapshot.val();
-    const senderUsername = currentUserData
-      ? currentUserData.username
-      : 'Unknown';
-
-    const notificationRef = ref(this.db, `users/${userId}/notifications`);
-    const newNotificationKey = push(notificationRef);
-
-    await set(newNotificationKey, {
-      type: 'follow',
-      senderUsername: senderUsername,
-      read: false,
-      timestamp: Date.now(),
-    });
+    this.isUserFollowing[userId] = true; // Update UI manually
   }
 
   async unfollowUser(userId: string) {
@@ -132,7 +134,7 @@ export class ExploreComponent implements OnInit {
     await set(followingRef, null);
     await set(followersRef, null);
 
-    console.log(`Unfollowed user: ${userId}`);
+    this.isUserFollowing[userId] = false;
   }
 
   fetchFollowData() {
