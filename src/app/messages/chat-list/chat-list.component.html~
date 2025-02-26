@@ -1,0 +1,29 @@
+<main class="h-full overflow-y-auto flex flex-col gap-2">
+  <input
+    type="text"
+    [(ngModel)]="searchQuery"
+    placeholder="Search people"
+    class="px-4 py-2 rounded-xl bg-gray-100 outline-none"
+  />
+  <ul *ngIf="friendsIds.length > 0 && searchQuery === ''">
+    <li
+      *ngFor="let friend of friendsIds"
+      class="p-2 border-b cursor-pointer hover:bg-gray-200"
+    >
+      {{ friend }}
+    </li>
+  </ul>
+  <div *ngIf="friendsIds.length === 0 && searchQuery === ''">
+    <p class="text-gray-500 text-center mt-4">No active chats found</p>
+  </div>
+  <ul *ngIf="searchQuery !== ''">
+    <li
+      *ngFor="let friend of allFriendsIds"
+      class="p-2 border-b cursor-pointer hover:bg-gray-200"
+    >
+      <button (click)="createNewChat(friend)" class="w-full h-full b-2">
+        {{ friend }}
+      </button>
+    </li>
+  </ul>
+</main>

@@ -4,7 +4,7 @@
     <div class="w-2/6">
       <app-chat-list />
     </div>
-    <div class="w-2/3">
+    <div class="w-2/3 ">
       <app-chat-window />
     </div>
   </div>
