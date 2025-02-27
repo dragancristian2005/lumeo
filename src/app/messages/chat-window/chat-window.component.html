@@ -6,8 +6,11 @@
     &#64;{{ selectedUsername }}
   </h2>
   <div class="flex-1 mb-2 flex flex-col justify-end">
-    <div>
-      <p>{{ this.chatId }}</p>
+    <div class="w-full h-full">
+      <ul *ngFor="let message of messagesInfo$ | async">
+        <li>{{ message.content }}</li>
+        <li>{{ message.senderUsername }}</li>
+      </ul>
     </div>
     <div class="flex flex-row gap-3 w-full">
       <input

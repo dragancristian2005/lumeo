@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { get, getDatabase, push, ref } from 'firebase/database';
 import { FormsModule } from '@angular/forms';
 import { Auth } from '@angular/fire/auth';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-chat-window',
-  imports: [NgIf, FormsModule],
+  imports: [NgIf, FormsModule, NgForOf, AsyncPipe],
   templateUrl: './chat-window.component.html',
   styleUrl: './chat-window.component.scss',
 })
@@ -17,6 +18,7 @@ export class ChatWindowComponent implements OnInit {
   selectedUsername: string | null = null;
   messageContent = '';
   chatId: string | null = null;
+  messagesInfo$: Observable<any[]> | null = null;
 
   constructor(
     private chatService: ChatService,
@@ -40,6 +42,10 @@ export class ChatWindowComponent implements OnInit {
         friendId,
       );
       this.getFriendInfo(friendId);
+
+      if (this.chatId) {
+        this.messagesInfo$ = this.chatService.fetchChatMessages(this.chatId);
+      }
     });
   }
 
@@ -59,13 +65,18 @@ export class ChatWindowComponent implements OnInit {
 
   sendNewMessage() {
     const messageRef = ref(this.db, `chats/${this.chatId}/messages`);
+    const usernameRef = ref(this.db, `users/${this.currentUserId}/username`);
 
-    const newMessage = {
-      sender: this.currentUserId,
-      content: this.messageContent,
-      timestamp: Date.now(),
-    };
-    this.messageContent = '';
-    push(messageRef, newMessage);
+    get(usernameRef).then((snapshot) => {
+      const username = snapshot.exists() ? snapshot.val() : null;
+      const newMessage = {
+        sender: this.currentUserId,
+        senderUsername: username,
+        content: this.messageContent,
+        timestamp: Date.now(),
+      };
+      this.messageContent = '';
+      push(messageRef, newMessage);
+    });
   }
 }

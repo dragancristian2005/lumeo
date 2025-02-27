@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { get, getDatabase, onValue, push, ref } from 'firebase/database';
 import { off } from '@angular/fire/database';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -160,6 +160,26 @@ export class ChatService implements OnDestroy {
       }
     }
     return null;
+  }
+
+  fetchChatMessages(chatId: string): Observable<any[]> {
+    return new Observable((observer) => {
+      if (!chatId) {
+        observer.next([]);
+        return;
+      }
+
+      const messagesInfoRef = ref(this.db, `chats/${chatId}/messages`);
+
+      onValue(messagesInfoRef, (snapshot) => {
+        const messagesInfo = snapshot.val();
+        if (messagesInfo) {
+          observer.next(Object.values(messagesInfo));
+        } else {
+          observer.next([]);
+        }
+      });
+    });
   }
 
   getAllFriendsIds() {
