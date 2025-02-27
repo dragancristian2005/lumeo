@@ -4,6 +4,8 @@ import { NgForOf, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Auth } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
+import { get, getDatabase, ref } from 'firebase/database';
+import { Friend } from '../../types/friend.types';
 
 @Component({
   selector: 'app-chat-list',
@@ -13,8 +15,10 @@ import { Subscription } from 'rxjs';
 })
 export class ChatListComponent implements OnInit, OnDestroy {
   friendsIds: string[] = [];
+  friendsInfo: Friend[] = [];
   searchQuery = '';
   allFriendsIds: string[] = [];
+  allFriendsInfo: Friend[] = [];
   private currentUserId: string | null = null;
   private friendsSubscription!: Subscription;
 
@@ -29,6 +33,7 @@ export class ChatListComponent implements OnInit, OnDestroy {
     });
   }
 
+  db = getDatabase();
   ngOnInit() {
     this.friendsSubscription = this.chatService.friendsIds$.subscribe(
       (friends) => {
@@ -36,6 +41,8 @@ export class ChatListComponent implements OnInit, OnDestroy {
       },
     );
     this.allFriendsIds = this.chatService.getAllFriendsIds();
+    this.getAllFriendsInfo();
+    this.getFriendsInfo();
   }
 
   ngOnDestroy() {
@@ -55,5 +62,41 @@ export class ChatListComponent implements OnInit, OnDestroy {
     } catch (error) {
       console.error('Error creating chat:', error);
     }
+  }
+
+  getAllFriendsInfo() {
+    const allUsersIds = ref(this.db, 'users');
+    get(allUsersIds).then((snapshot) => {
+      const usersIds = Object.keys(snapshot.val());
+      usersIds.forEach((id) => {
+        if (this.allFriendsIds.includes(id)) {
+          const newFriendInfo: Friend = {
+            id: id,
+            username: snapshot.child(id).child('username').val(),
+          };
+          this.allFriendsInfo.push(newFriendInfo);
+        }
+      });
+    });
+  }
+
+  getFriendsInfo() {
+    const allUsersIds = ref(this.db, 'users');
+    get(allUsersIds).then((snapshot) => {
+      const usersIds = Object.keys(snapshot.val());
+      usersIds.forEach((id) => {
+        if (this.friendsIds.includes(id)) {
+          const newFriendInfo: Friend = {
+            id: id,
+            username: snapshot.child(id).child('username').val(),
+          };
+          this.friendsInfo.push(newFriendInfo);
+        }
+      });
+    });
+  }
+
+  openChat(friendId: string) {
+    this.chatService.selectChat(friendId);
   }
 }

@@ -5,24 +5,28 @@
     placeholder="Search people"
     class="px-4 py-2 rounded-xl bg-gray-100 outline-none"
   />
-  <ul *ngIf="friendsIds.length > 0 && searchQuery === ''">
-    <li
-      *ngFor="let friend of friendsIds"
-      class="p-2 border-b cursor-pointer hover:bg-gray-200"
-    >
-      {{ friend }}
+  <ul
+    *ngIf="friendsIds.length > 0 && searchQuery === ''"
+    class="w-full flex flex-col gap-2"
+  >
+    <li *ngFor="let friend of friendsInfo">
+      <button
+        class="bg-secondary px-2 py-4 rounded-xl cursor-pointer hover:bg-gray-100 font-sans font-semibold w-full text-left"
+      >
+        &#64;{{ friend.username }}
+      </button>
     </li>
   </ul>
   <div *ngIf="friendsIds.length === 0 && searchQuery === ''">
     <p class="text-gray-500 text-center mt-4">No active chats found</p>
   </div>
-  <ul *ngIf="searchQuery !== ''">
-    <li
-      *ngFor="let friend of allFriendsIds"
-      class="p-2 border-b cursor-pointer hover:bg-gray-200"
-    >
-      <button (click)="createNewChat(friend)" class="w-full h-full b-2">
-        {{ friend }}
+  <ul *ngIf="searchQuery !== ''" class="w-full flex flex-col gap-2">
+    <li *ngFor="let friend of allFriendsInfo">
+      <button
+        (click)="createNewChat(friend.id)"
+        class="bg-secondary px-2 py-4 rounded-xl cursor-pointer hover:bg-gray-100 font-sans font-semibold w-full text-left"
+      >
+        &#64;{{ friend.username }}
       </button>
     </li>
   </ul>

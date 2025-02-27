@@ -15,6 +15,8 @@ export class ChatService implements OnDestroy {
   private friendsIdsSubject = new BehaviorSubject<string[]>([]);
   friendsIds$ = this.friendsIdsSubject.asObservable();
   allFriends: string[] = [];
+  private selectedChatSource = new BehaviorSubject<string | null>(null);
+  selectedChat$ = this.selectedChatSource.asObservable();
 
   constructor(private auth: Auth) {
     this.auth.onAuthStateChanged((user) => {
@@ -98,6 +100,8 @@ export class ChatService implements OnDestroy {
             [currentUserId]: true,
             [friendId]: true,
           },
+          lastMessage: '',
+          lastMessageTimestamp: '',
         };
 
         const newChatRef = push(chatRef, newChat);
@@ -142,8 +146,28 @@ export class ChatService implements OnDestroy {
     });
   }
 
+  async getChatId(userId1: string, userId2: string) {
+    const chatsRef = ref(this.db, 'chats');
+    const snapshot = await get(chatsRef);
+
+    if (snapshot.exists()) {
+      const chats = snapshot.val();
+      for (const chatId in chats) {
+        const participants = chats[chatId].participants;
+        if (participants[userId1] && participants[userId2]) {
+          return chatId;
+        }
+      }
+    }
+    return null;
+  }
+
   getAllFriendsIds() {
     return this.allFriends;
+  }
+
+  selectChat(friendId: string) {
+    this.selectedChatSource.next(friendId);
   }
 
   ngOnDestroy() {
