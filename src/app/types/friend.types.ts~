@@ -3,4 +3,5 @@ export interface Friend {
   username: string;
   lastMessage?: string;
   lastMessageTimestamp?: number;
+  
 }

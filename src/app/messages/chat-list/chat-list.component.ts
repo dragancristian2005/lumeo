@@ -6,10 +6,11 @@ import { Auth } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
 import { get, getDatabase, ref } from 'firebase/database';
 import { Friend } from '../../types/friend.types';
+import { RelativeTimePipe } from '../../profile/relative-time.pipe';
 
 @Component({
   selector: 'app-chat-list',
-  imports: [NgForOf, NgIf, FormsModule],
+  imports: [NgForOf, NgIf, FormsModule, RelativeTimePipe],
   templateUrl: './chat-list.component.html',
   styleUrl: './chat-list.component.scss',
 })
@@ -81,19 +82,46 @@ export class ChatListComponent implements OnInit, OnDestroy {
   }
 
   getFriendsInfo() {
-    const allUsersIds = ref(this.db, 'users');
-    get(allUsersIds).then((snapshot) => {
-      const usersIds = Object.keys(snapshot.val());
-      usersIds.forEach((id) => {
-        if (this.friendsIds.includes(id)) {
-          const newFriendInfo: Friend = {
-            id: id,
-            username: snapshot.child(id).child('username').val(),
-          };
-          this.friendsInfo.push(newFriendInfo);
-        }
+    const allUsersRef = ref(this.db, 'users');
+
+    get(allUsersRef).then((snapshot) => {
+      const users = snapshot.val();
+      this.friendsInfo = this.friendsIds.map((id) => ({
+        id,
+        username: users[id]?.username || 'Unknown',
+        lastMessage: '',
+        lastMessageTimestamp: 0,
+      }));
+
+      this.friendsInfo.forEach((friend) => {
+        this.getLastMessage(friend.id).then((lastMessageData) => {
+          friend.lastMessage = lastMessageData.message;
+          friend.lastMessageTimestamp = lastMessageData.timestamp;
+        });
       });
     });
+  }
+
+  async getLastMessage(
+    friendId: string,
+  ): Promise<{ message: string; timestamp: number }> {
+    const chatId = await this.chatService.getChatId(
+      this.currentUserId!,
+      friendId,
+    );
+    if (!chatId) return { message: '', timestamp: 0 };
+
+    const chatRef = ref(this.db, `chats/${chatId}`);
+    const snapshot = await get(chatRef);
+
+    if (snapshot.exists()) {
+      const chatData = snapshot.val();
+      return {
+        message: chatData.lastMessage || '',
+        timestamp: chatData.lastMessageTimestamp || 0,
+      };
+    }
+    return { message: '', timestamp: 0 };
   }
 
   openChat(friendId: string) {

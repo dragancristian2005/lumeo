@@ -5,28 +5,47 @@
     placeholder="Search people"
     class="px-4 py-2 rounded-xl bg-gray-100 outline-none"
   />
+
   <ul
     *ngIf="friendsIds.length > 0 && searchQuery === ''"
     class="w-full flex flex-col gap-2"
   >
     <li *ngFor="let friend of friendsInfo">
       <button
+        (click)="openChat(friend.id)"
         class="bg-secondary px-2 py-4 rounded-xl cursor-pointer hover:bg-gray-100 font-sans font-semibold w-full text-left"
       >
-        &#64;{{ friend.username }}
+        <div class="flex flex-col">
+          <span>&#64;{{ friend.username }}</span>
+          <span class="text-gray-500 text-sm truncate">{{
+            friend.lastMessage || 'No messages yet'
+          }}</span>
+
+          <span
+            *ngIf="friend.lastMessageTimestamp"
+            class="text-gray-400 text-xs"
+          >
+            {{ friend.lastMessageTimestamp | relativeTime }}
+          </span>
+        </div>
       </button>
     </li>
   </ul>
+
   <div *ngIf="friendsIds.length === 0 && searchQuery === ''">
     <p class="text-gray-500 text-center mt-4">No active chats found</p>
   </div>
+
   <ul *ngIf="searchQuery !== ''" class="w-full flex flex-col gap-2">
     <li *ngFor="let friend of allFriendsInfo">
       <button
         (click)="createNewChat(friend.id)"
         class="bg-secondary px-2 py-4 rounded-xl cursor-pointer hover:bg-gray-100 font-sans font-semibold w-full text-left"
       >
-        &#64;{{ friend.username }}
+        <div class="flex flex-col">
+          <span>&#64;{{ friend.username }}</span>
+          <span class="text-gray-500 text-sm">No messages yet</span>
+        </div>
       </button>
     </li>
   </ul>

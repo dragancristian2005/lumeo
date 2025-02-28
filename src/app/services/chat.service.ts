@@ -112,51 +112,47 @@ export class ChatService implements OnDestroy {
     });
   }
 
-  checkIfChatExists(
+  async checkIfChatExists(
     currentUserId: string,
     friendId: string,
   ): Promise<string | null> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const chatsRef = ref(this.db, 'chats');
+    try {
+      const chatsRef = ref(this.db, 'chats');
+      const snapshot = await get(chatsRef);
+      const chatData = snapshot.val();
 
-        const snapshot = await get(chatsRef);
-        const chatData = snapshot.val();
-
-        if (chatData) {
-          for (const chatId of Object.keys(chatData)) {
-            const participants = chatData[chatId].participants;
-
-            if (
-              participants &&
-              participants[currentUserId] &&
-              participants[friendId]
-            ) {
-              resolve(chatId);
-              return;
-            }
+      if (chatData) {
+        for (const chatId of Object.keys(chatData)) {
+          const participants = chatData[chatId].participants;
+          if (
+            participants &&
+            participants[currentUserId] &&
+            participants[friendId]
+          ) {
+            return chatId;
           }
         }
-
-        const newChatId = await this.createChat(currentUserId, friendId);
-        resolve(newChatId);
-      } catch (error) {
-        reject(error);
       }
-    });
+
+      const newChatId = await this.createChat(currentUserId, friendId);
+      return newChatId;
+    } catch (error) {
+      console.error('Error checking chat existence:', error);
+      return null;
+    }
   }
 
-  async getChatId(userId1: string, userId2: string) {
+  async getChatId(userId1: string, userId2: string): Promise<string | null> {
     const chatsRef = ref(this.db, 'chats');
     const snapshot = await get(chatsRef);
 
-    if (snapshot.exists()) {
-      const chats = snapshot.val();
-      for (const chatId in chats) {
-        const participants = chats[chatId].participants;
-        if (participants[userId1] && participants[userId2]) {
-          return chatId;
-        }
+    if (!snapshot.exists()) return null;
+
+    const chats = snapshot.val();
+    for (const chatId in chats) {
+      const participants = chats[chatId].participants;
+      if (participants[userId1] && participants[userId2]) {
+        return chatId;
       }
     }
     return null;

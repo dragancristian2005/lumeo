@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
-import { get, getDatabase, push, ref } from 'firebase/database';
+import { get, getDatabase, push, ref, set } from 'firebase/database';
 import { FormsModule } from '@angular/forms';
 import { Auth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
@@ -64,20 +64,39 @@ export class ChatWindowComponent implements OnInit {
   }
 
   sendNewMessage() {
+    if (!this.messageContent || !this.currentUserId || !this.chatId) return;
+
     const messageRef = ref(this.db, `chats/${this.chatId}/messages`);
     const usernameRef = ref(this.db, `users/${this.currentUserId}/username`);
-    if (!this.messageContent) return;
+    const chatRef = ref(this.db, `chats/${this.chatId}`);
 
     get(usernameRef).then((snapshot) => {
-      const username = snapshot.exists() ? snapshot.val() : null;
+      const username = snapshot.exists() ? snapshot.val() : 'Unknown';
+
       const newMessage = {
         sender: this.currentUserId,
         senderUsername: username,
         content: this.messageContent,
         timestamp: Date.now(),
       };
+
       this.messageContent = '';
-      push(messageRef, newMessage);
+
+      push(messageRef, newMessage)
+        .then(() => get(chatRef))
+        .then((chatSnapshot) => {
+          if (chatSnapshot.exists()) {
+            const chatData = chatSnapshot.val();
+            chatData.lastMessage = newMessage.content;
+            chatData.lastMessageTimestamp = newMessage.timestamp;
+            return set(chatRef, chatData);
+          } else {
+            return;
+          }
+        })
+        .catch((error) => {
+          console.error('Error sending message:', error);
+        });
     });
   }
 }
