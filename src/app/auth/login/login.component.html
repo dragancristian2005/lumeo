@@ -4,6 +4,7 @@
     class="flex flex-col justify-center w-1/4 mt-8 mb-2"
   >
     <p class="font-sans text-title font-semibold">Welcome back</p>
+
     <label for="email" class="font-sans mt-6 mb-2">Email</label>
     <div class="relative">
       <input
@@ -27,6 +28,7 @@
         />
       </svg>
     </div>
+
     <label for="password" class="font-sans mt-4 mb-2">Password</label>
     <div class="relative">
       <input
@@ -50,6 +52,11 @@
         />
       </svg>
     </div>
+
+    <div *ngIf="errorMessage" class="text-red-500 mt-2">
+      {{ errorMessage }}
+    </div>
+
     <button
       type="submit"
       class="bg-primary text-white py-2 rounded-xl mt-4 font-sans font-semibold"
@@ -57,6 +64,7 @@
       Sign In
     </button>
   </form>
+
   <button routerLink="/register" class="font-sans text-blue-500">
     Don't have an account? Register
   </button>

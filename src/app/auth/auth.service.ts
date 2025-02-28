@@ -52,19 +52,17 @@ export class AuthService {
       await this.router.navigate(['/home']);
     } catch (error: any) {
       console.error('Registration error:', error.message);
+      throw new Error(error.message);
     }
   }
 
   async login(email: string, password: string) {
     try {
-      await signInWithEmailAndPassword(this.auth, email, password).then(
-        (userCredential) => {
-          console.log(userCredential);
-        },
-      );
+      await signInWithEmailAndPassword(this.auth, email, password);
       await this.router.navigate(['/home']);
     } catch (error: any) {
       console.error('Login error:', error.message);
+      throw new Error(error.message);
     }
   }
 
