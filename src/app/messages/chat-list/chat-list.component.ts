@@ -4,7 +4,7 @@ import { NgForOf, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Auth } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
-import { get, getDatabase, onValue, ref } from 'firebase/database';
+import { get, getDatabase, ref } from 'firebase/database';
 import { Friend } from '../../types/friend.types';
 import { RelativeTimePipe } from '../../profile/relative-time.pipe';
 
@@ -35,6 +35,7 @@ export class ChatListComponent implements OnInit, OnDestroy {
   }
 
   db = getDatabase();
+
   ngOnInit() {
     this.friendsSubscription = this.chatService.friendsIds$.subscribe(
       (friends) => {
@@ -74,6 +75,8 @@ export class ChatListComponent implements OnInit, OnDestroy {
           const newFriendInfo: Friend = {
             id: id,
             username: snapshot.child(id).child('username').val(),
+            friendProfilePic:
+              snapshot.child(id).child('profilePic').val() || '',
           };
           this.allFriendsInfo.push(newFriendInfo);
         }
@@ -93,6 +96,7 @@ export class ChatListComponent implements OnInit, OnDestroy {
       this.friendsInfo = this.friendsIds.map((id) => ({
         id,
         username: users[id]?.username || 'Unknown',
+        friendProfilePic: users[id]?.profilePic || '',
         lastMessage: '',
         lastMessageTimestamp: 0,
       }));
