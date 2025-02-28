@@ -69,6 +69,7 @@ export class ChatWindowComponent implements OnInit {
     const messageRef = ref(this.db, `chats/${this.chatId}/messages`);
     const usernameRef = ref(this.db, `users/${this.currentUserId}/username`);
     const chatRef = ref(this.db, `chats/${this.chatId}`);
+    const timestamp = Date.now(); // Get the current timestamp
 
     get(usernameRef).then((snapshot) => {
       const username = snapshot.exists() ? snapshot.val() : 'Unknown';
@@ -77,7 +78,7 @@ export class ChatWindowComponent implements OnInit {
         sender: this.currentUserId,
         senderUsername: username,
         content: this.messageContent,
-        timestamp: Date.now(),
+        timestamp,
       };
 
       this.messageContent = '';
@@ -88,11 +89,10 @@ export class ChatWindowComponent implements OnInit {
           if (chatSnapshot.exists()) {
             const chatData = chatSnapshot.val();
             chatData.lastMessage = newMessage.content;
-            chatData.lastMessageTimestamp = newMessage.timestamp;
+            chatData.lastMessageTimestamp = timestamp;
             return set(chatRef, chatData);
-          } else {
-            return;
           }
+          return;
         })
         .catch((error) => {
           console.error('Error sending message:', error);

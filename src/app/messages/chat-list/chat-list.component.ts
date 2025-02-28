@@ -4,7 +4,7 @@ import { NgForOf, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Auth } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
-import { get, getDatabase, ref } from 'firebase/database';
+import { get, getDatabase, onValue, ref } from 'firebase/database';
 import { Friend } from '../../types/friend.types';
 import { RelativeTimePipe } from '../../profile/relative-time.pipe';
 
@@ -81,6 +81,10 @@ export class ChatListComponent implements OnInit, OnDestroy {
     });
   }
 
+  openChat(friendId: string) {
+    this.chatService.selectChat(friendId);
+  }
+
   getFriendsInfo() {
     const allUsersRef = ref(this.db, 'users');
 
@@ -122,9 +126,5 @@ export class ChatListComponent implements OnInit, OnDestroy {
       };
     }
     return { message: '', timestamp: 0 };
-  }
-
-  openChat(friendId: string) {
-    this.chatService.selectChat(friendId);
   }
 }
