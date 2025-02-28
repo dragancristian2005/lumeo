@@ -1,4 +1,4 @@
-<main class="w-full h-full py-5 px-10 flex flex-col">
+<main class="w-full h-full py-5 px-10 flex flex-col overflow-y-auto">
   <h1 class="font-sans text-title font-bold">Notifications</h1>
   <div class="w-full mt-5">
     <div class="border-b-2 w-full flex justify-start">
@@ -16,12 +16,8 @@
         </button>
       </div>
     </div>
-
-    <div class="mt-4 space-y-4">
-      <div
-        *ngFor="let notification of filteredNotifications"
-        class="px-4 py-2 max-h-96 overflow-y-auto"
-      >
+    <div class="mt-4">
+      <div *ngFor="let notification of filteredNotifications" class="px-4 py-2">
         <div *ngIf="notification.type === 'like'">
           <p class="font-sans">
             <strong>&#64;{{ notification.senderUsername }}</strong> liked your
