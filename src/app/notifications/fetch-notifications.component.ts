@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getDatabase, ref, onValue, set } from 'firebase/database';
+import { getDatabase, ref, onValue } from 'firebase/database';
 import { Auth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 
