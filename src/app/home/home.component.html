@@ -1,10 +1,15 @@
 <main class="w-full h-full py-5 px-10 flex flex-col items-center">
   <div class="w-2/3 overflow-y-auto scrollbar-hide">
     <h1 class="font-sans text-title font-bold">Home</h1>
-    <ul class="w-full flex flex-col">
+    <ul class="w-full flex flex-col" *ngIf="posts.length > 0">
       <li *ngFor="let post of posts" class="w-full mt-5">
         <app-post-card [postValue]="post.postValue" [postId]="post.postId" />
       </li>
     </ul>
+    <div *ngIf="posts.length === 0">
+      <p class="font-sans text-subtitle text-tertiaryText">
+        No posts available
+      </p>
+    </div>
   </div>
 </main>
