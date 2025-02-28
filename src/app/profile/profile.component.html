@@ -6,15 +6,81 @@
   *ngIf="!isLoading && userData"
   class="w-full h-full py-5 px-10 flex flex-col"
 >
-  <h1 class="font-sans text-title font-semibold">
-    {{
-      userData.firstName.charAt(0).toUpperCase() + userData.firstName.slice(1)
-    }}
-    {{ userData.lastName.charAt(0).toUpperCase() + userData.lastName.slice(1) }}
-  </h1>
-  <p class="font-sans text-text font-semibold mt-5">
-    &#64;{{ userData.username }}
-  </p>
+  <div class="flex flex-row items-center">
+    <div class="relative mb-1">
+      <label
+        class="cursor-pointer"
+        (click)="openFileInput()"
+        (keyup.enter)="openFileInput()"
+        tabindex="0"
+        role="button"
+        aria-label="Change profile picture"
+      >
+        <div
+          class="w-24 h-24 rounded-full bg-primary flex items-center justify-center overflow-hidden border-2 border-primary"
+        >
+          <img
+            *ngIf="userData.profilePic; else initials"
+            [src]="userData.profilePic"
+            alt="Profile Picture"
+            class="w-full h-full object-cover"
+          />
+
+          <ng-template #initials>
+            <span class="text-white text-2xl font-semibold">
+              {{ userData.firstName.charAt(0)
+              }}{{ userData.lastName.charAt(0) }}
+            </span>
+          </ng-template>
+        </div>
+        <div
+          class="absolute bottom-0 right-0 bg-white rounded-full p-1 shadow-sm"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-primary"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+        </div>
+      </label>
+      <input
+        type="file"
+        hidden
+        #fileInput
+        accept="image/*"
+        (change)="uploadProfilePic($event)"
+      />
+    </div>
+    <div class="flex flex-col ml-4">
+      <h1 class="font-sans text-title font-semibold">
+        {{
+          userData.firstName.charAt(0).toUpperCase() +
+            userData.firstName.slice(1)
+        }}
+        {{
+          userData.lastName.charAt(0).toUpperCase() + userData.lastName.slice(1)
+        }}
+      </h1>
+      <p class="font-sans text-text font-semibold">
+        &#64;{{ userData.username }}
+      </p>
+    </div>
+  </div>
   <div class="relative">
     <p
       *ngIf="!isEditing"
@@ -26,7 +92,7 @@
       role="button"
       aria-label="Edit bio"
     >
-      {{ userData?.bio || 'Click to add a bio' }}
+      {{ userData.bio || 'Click to add a bio' }}
 
       <button
         class="ml-2 text-gray-500 focus:outline-none"

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { FirebaseService } from '../firebase/firebase.service';
 import { UserData } from '../types/userData.types';
@@ -7,6 +7,13 @@ import { NgIf } from '@angular/common';
 import { UserMetricsComponent } from './user-metrics/user-metrics.component';
 import { UserPostsComponent } from './user-posts/user-posts.component';
 import { FormsModule } from '@angular/forms';
+import { v4 as uuidv4 } from 'uuid';
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+} from '@angular/fire/storage';
 
 @Component({
   selector: 'app-profile',
@@ -18,9 +25,10 @@ export class ProfileComponent implements OnInit {
   userId: string | null = null;
   userData: UserData | undefined;
   isLoading = true;
-
   isEditing = false;
   newBio = '';
+
+  @ViewChild('fileInput') fileInput!: ElementRef;
 
   constructor(
     private authService: AuthService,
@@ -77,5 +85,33 @@ export class ProfileComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  async uploadProfilePic(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file || !this.userId) return;
+
+    try {
+      const storage = getStorage();
+      const storageRef = ref(
+        storage,
+        `profile-pics/${this.userId}/${uuidv4()}`,
+      );
+      const snapshot = await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      await this.firebaseService.updateUser(this.userId, {
+        profilePic: downloadURL,
+      });
+      if (this.userData) {
+        this.userData.profilePic = downloadURL;
+      }
+    } catch (error) {
+      console.error('Error uploading profile picture:', error);
+    }
+  }
+
+  openFileInput() {
+    this.fileInput.nativeElement.click();
   }
 }
