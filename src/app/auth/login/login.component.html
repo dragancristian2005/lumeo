@@ -1,11 +1,15 @@
-<main class="w-full h-full flex flex-col justify-center items-center">
+<main class="w-full h-screen flex flex-col dark:bg-darkBackground items-center">
   <form
     (ngSubmit)="login()"
     class="flex flex-col justify-center w-1/4 mt-8 mb-2"
   >
-    <p class="font-sans text-title font-semibold">Welcome back</p>
+    <p class="font-sans text-title font-semibold dark:text-darkPrimaryText">
+      Welcome back
+    </p>
 
-    <label for="email" class="font-sans mt-6 mb-2">Email</label>
+    <label for="email" class="font-sans mt-6 mb-2 dark:text-darkSecondaryText"
+      >Email</label
+    >
     <div class="relative">
       <input
         id="email"
@@ -14,14 +18,14 @@
         [ngModelOptions]="{ standalone: true }"
         placeholder="Enter your email"
         required
-        class="outline-none bg-gray-100 px-4 py-2 rounded-xl w-full placeholder:text-sm placeholder:text-gray-500"
+        class="outline-none dark:bg-darkBackground dark:border dark:text-darkSecondaryText bg-gray-100 px-4 py-2 rounded-xl w-full placeholder:text-sm placeholder:text-gray-500"
       />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="24px"
         viewBox="0 -960 960 960"
         width="24px"
-        class="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600"
+        class="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600 dark:fill-darkSecondaryText"
       >
         <path
           d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"
@@ -29,7 +33,11 @@
       </svg>
     </div>
 
-    <label for="password" class="font-sans mt-4 mb-2">Password</label>
+    <label
+      for="password"
+      class="font-sans mt-4 mb-2 dark:text-darkSecondaryText"
+      >Password</label
+    >
     <div class="relative">
       <input
         id="password"
@@ -38,14 +46,14 @@
         [ngModelOptions]="{ standalone: true }"
         placeholder="Enter your password"
         required
-        class="outline-none bg-gray-100 px-4 py-2 rounded-xl w-full placeholder:text-sm placeholder:text-gray-500"
+        class="outline-none dark:bg-darkBackground dark:border dark:text-darkSecondaryText bg-gray-100 px-4 py-2 rounded-xl w-full placeholder:text-sm placeholder:text-gray-500"
       />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="24px"
         viewBox="0 -960 960 960"
         width="24px"
-        class="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600"
+        class="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-600 dark:fill-darkSecondaryText"
       >
         <path
           d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm240-120q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z"

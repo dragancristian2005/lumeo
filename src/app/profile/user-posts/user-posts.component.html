@@ -1,6 +1,6 @@
 <div class="mb-4 mt-4">
   <button
-    class="font-sans pr-2 cursor-pointer tab"
+    class="font-sans pr-2 cursor-pointer tab dark:text-darkSecondaryText"
     (click)="activeTab = 'posts'"
     [ngClass]="{ 'active-tab': activeTab === 'posts' }"
   >
@@ -27,7 +27,9 @@
         <p class="font-sans text-text text-secondaryText font-semibold">
           {{ post.timestamp | relativeTime }}
         </p>
-        <p class="font-sans text-subtitle font-semibold">
+        <p
+          class="font-sans text-subtitle font-semibold dark:text-darkPrimaryText"
+        >
           {{ post.postTitle }}
         </p>
         <p class="font-sans text-tertiaryText">
@@ -50,7 +52,9 @@
       <p class="font-sans text-text text-secondaryText font-semibold">
         {{ post.timestamp | relativeTime }}
       </p>
-      <p class="font-sans text-subtitle font-semibold">
+      <p
+        class="font-sans text-subtitle font-semibold dark:text-darkPrimaryText"
+      >
         {{ post.postTitle }}
       </p>
       <p class="font-sans text-tertiaryText">

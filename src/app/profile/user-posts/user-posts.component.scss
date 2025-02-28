@@ -11,6 +11,7 @@
 .tab.active-tab {
   color: black;
 
+  @apply dark:text-darkSecondaryText
 }
 
 .tab.active-tab::after {
@@ -21,5 +22,7 @@
   width: 100%;
   height: 2px;
   background: black;
+
+  @apply dark:bg-darkSecondaryText
 
 }

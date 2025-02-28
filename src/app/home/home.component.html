@@ -1,6 +1,10 @@
-<main class="w-full h-full py-5 px-10 flex flex-col items-center">
+<main
+  class="w-full h-full py-5 px-10 flex flex-col items-center dark:bg-darkBackground"
+>
   <div class="w-2/3 overflow-y-auto scrollbar-hide">
-    <h1 class="font-sans text-title font-bold">Home</h1>
+    <h1 class="font-sans text-title font-bold dark:text-darkPrimaryText">
+      Home
+    </h1>
     <ul class="w-full flex flex-col" *ngIf="posts.length > 0">
       <li *ngFor="let post of posts" class="w-full mt-5">
         <app-post-card [postValue]="post.postValue" [postId]="post.postId" />

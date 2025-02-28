@@ -2,7 +2,9 @@
   *ngIf="chatFriendId; else noChatSelected"
   class="bg-secondary px-8 py-4 rounded-xl h-full flex flex-col justify-between"
 >
-  <h2 class="font-bold text-lg text-center border-b-2 p-2 mb-8">
+  <h2
+    class="font-bold text-lg text-center border-b-2 dark:border-darkTertiaryText p-2 mb-8 dark:text-darkPrimaryText"
+  >
     &#64;{{ selectedUsername }}
   </h2>
   <div class="overflow-y-auto scrollbar-hide h-full flex flex-col-reverse">
@@ -23,7 +25,7 @@
       <input
         type="text"
         [(ngModel)]="messageContent"
-        class="bg-gray-100 px-4 py-2 rounded-xl outline-none flex-1"
+        class="bg-gray-100 dark:bg-darkBackground px-4 py-2 rounded-xl outline-none flex-1"
         placeholder="Type a message"
       />
       <button
@@ -47,5 +49,7 @@
 </main>
 
 <ng-template #noChatSelected>
-  <p class="text-gray-500 text-center mt-4">Select a chat to start messaging</p>
+  <p class="text-gray-500 text-center mt-4 dark:text-darkSecondaryText">
+    Select a chat to start messaging
+  </p>
 </ng-template>

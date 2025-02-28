@@ -1,5 +1,5 @@
 <nav
-  class="border-r-2 border-gray-200 h-full px-2 flex flex-col justify-between"
+  class="border-r-2 dark:bg-darkBackground dark:border-gray-500 border-gray-200 h-full px-2 flex flex-col justify-between"
 >
   <ul class="flex flex-col gap-2 items-center p-4">
     <li>
@@ -249,33 +249,41 @@
   (click)="closeModal()"
 >
   <div
-    class="bg-white p-6 rounded-2xl w-1/2 relative"
+    class="bg-white dark:bg-darkBackground p-6 rounded-2xl w-1/2 relative"
     (click)="$event.stopPropagation()"
   >
-    <h2 class="font-sans text-title font-semibold mb-4">Create a New Post</h2>
+    <h2
+      class="font-sans text-title font-semibold mb-4 dark:text-darkPrimaryText"
+    >
+      Create a New Post
+    </h2>
     <form (ngSubmit)="onSubmit()" class="flex flex-col h-full">
       <textarea
         [(ngModel)]="postTitle"
         name="title"
         placeholder="What's on your mind?"
         required
-        class="w-full min-h-14 p-3 border border-gray-300 rounded-xl mb-4 focus:outline-none focus:ring-1 focus:ring-primary"
+        class="w-full min-h-14 p-3 border dark:bg-darkBackground dark:text-darkSecondaryText rounded-xl mb-4 outline-none"
       ></textarea>
       <textarea
         [(ngModel)]="postContent"
         name="content"
         placeholder="Tell us more about it!"
         required
-        class="w-full min-h-36 p-3 border border-gray-300 rounded-xl mb-4 focus:outline-none focus:ring-1 focus:ring-primary"
+        class="w-full min-h-36 p-3 border dark:bg-darkBackground dark:text-darkSecondaryText rounded-xl mb-4 outline-none"
       ></textarea>
 
       <div class="mb-4">
-        <h3 class="font-sans text-text font-semibold mb-2">Select Topics:</h3>
+        <h3
+          class="font-sans text-text font-semibold mb-2 dark:text-darkSecondaryText"
+        >
+          Select Topics:
+        </h3>
         <input
           type="text"
           [(ngModel)]="searchQuery"
           [ngModelOptions]="{ standalone: true }"
-          class="w-full h-10 px-5 bg-gray-100 rounded-xl outline-none mb-5"
+          class="w-full h-10 px-5 border dark:bg-darkBackground dark:text-darkSecondaryText rounded-xl outline-none mb-5"
           placeholder="Search topics"
         />
         <div class="flex flex-wrap gap-2 max-h-36 overflow-y-auto">
@@ -285,7 +293,8 @@
             (click)="toggleTopic(topic)"
             [ngClass]="{
               'bg-primary text-white': selectedTopics.includes(topic),
-              'bg-gray-200 text-gray-700': !selectedTopics.includes(topic),
+              'bg-gray-200 text-gray-700 dark:bg-darkSecondaryText':
+                !selectedTopics.includes(topic),
             }"
             class="px-3 py-1 rounded-lg text-sm transition-all"
           >

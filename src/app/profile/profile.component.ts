@@ -114,4 +114,9 @@ export class ProfileComponent implements OnInit {
   openFileInput() {
     this.fileInput.nativeElement.click();
   }
+
+  toggleDarkMode() {
+    const darkModeEnabled = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', darkModeEnabled ? 'dark' : 'light');
+  }
 }

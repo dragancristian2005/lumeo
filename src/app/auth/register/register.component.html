@@ -1,9 +1,11 @@
-<main class="w-full h-full flex flex-col justify-center items-center">
+<main class="w-full h-screen flex flex-col items-center dark:bg-darkBackground">
   <form
     (ngSubmit)="register()"
     class="flex flex-col justify-center w-1/4 mt-8 mb-2"
   >
-    <p class="font-sans text-title font-semibold">Welcome</p>
+    <p class="font-sans text-title font-semibold dark:text-darkPrimaryText">
+      Welcome
+    </p>
 
     <div *ngIf="errorMessage" class="text-red-500 font-semibold mt-4">
       {{ errorMessage }}
@@ -11,7 +13,11 @@
 
     <div class="w-full flex flex-row gap-3">
       <div class="w-full flex flex-col justify-center">
-        <label for="firstName" class="font-sans mt-6 mb-2">First Name</label>
+        <label
+          for="firstName"
+          class="font-sans mt-6 mb-2 dark:text-darkSecondaryText"
+          >First Name</label
+        >
         <input
           id="firstName"
           type="text"
@@ -19,11 +25,15 @@
           [ngModelOptions]="{ standalone: true }"
           placeholder="Enter first name"
           required
-          class="outline-none bg-gray-100 px-4 py-2 rounded-xl w-full placeholder:text-sm placeholder:text-gray-500"
+          class="outline-none dark:bg-darkBackground dark:border dark:text-darkSecondaryText bg-gray-100 px-4 py-2 rounded-xl w-full placeholder:text-sm placeholder:text-gray-500"
         />
       </div>
       <div class="w-full flex flex-col justify-center">
-        <label for="lastName" class="font-sans mt-6 mb-2">Last Name</label>
+        <label
+          for="lastName"
+          class="font-sans mt-6 mb-2 dark:text-darkSecondaryText"
+          >Last Name</label
+        >
         <input
           id="lastName"
           type="text"
@@ -31,12 +41,16 @@
           [ngModelOptions]="{ standalone: true }"
           placeholder="Enter last name"
           required
-          class="outline-none bg-gray-100 px-4 py-2 rounded-xl w-full placeholder:text-sm placeholder:text-gray-500"
+          class="outline-none dark:bg-darkBackground dark:border dark:text-darkSecondaryText bg-gray-100 px-4 py-2 rounded-xl w-full placeholder:text-sm placeholder:text-gray-500"
         />
       </div>
     </div>
 
-    <label for="username" class="font-sans mt-4 mb-2">Username</label>
+    <label
+      for="username"
+      class="font-sans mt-4 mb-2 dark:text-darkSecondaryText"
+      >Username</label
+    >
     <div class="relative">
       <input
         id="username"
@@ -45,11 +59,13 @@
         [ngModelOptions]="{ standalone: true }"
         placeholder="Enter your username"
         required
-        class="outline-none bg-gray-100 px-4 py-2 rounded-xl w-full placeholder:text-sm placeholder:text-gray-500"
+        class="outline-none dark:bg-darkBackground dark:border dark:text-darkSecondaryText bg-gray-100 px-4 py-2 rounded-xl w-full placeholder:text-sm placeholder:text-gray-500"
       />
     </div>
 
-    <label for="email" class="font-sans mt-4 mb-2">Email</label>
+    <label for="email" class="font-sans mt-4 mb-2 dark:text-darkSecondaryText"
+      >Email</label
+    >
     <div class="relative">
       <input
         id="email"
@@ -58,11 +74,15 @@
         [ngModelOptions]="{ standalone: true }"
         placeholder="Enter your email"
         required
-        class="outline-none bg-gray-100 px-4 py-2 rounded-xl w-full placeholder:text-sm placeholder:text-gray-500"
+        class="outline-none dark:bg-darkBackground dark:border dark:text-darkSecondaryText bg-gray-100 px-4 py-2 rounded-xl w-full placeholder:text-sm placeholder:text-gray-500"
       />
     </div>
 
-    <label for="password" class="font-sans mt-4 mb-2">Password</label>
+    <label
+      for="password"
+      class="font-sans mt-4 mb-2 dark:text-darkSecondaryText"
+      >Password</label
+    >
     <div class="relative">
       <input
         id="password"
@@ -71,11 +91,13 @@
         [ngModelOptions]="{ standalone: true }"
         placeholder="Enter your password"
         required
-        class="outline-none bg-gray-100 px-4 py-2 rounded-xl w-full placeholder:text-sm placeholder:text-gray-500"
+        class="outline-none dark:bg-darkBackground dark:border dark:text-darkSecondaryText bg-gray-100 px-4 py-2 rounded-xl w-full placeholder:text-sm placeholder:text-gray-500"
       />
     </div>
 
-    <label for="confirmPassword" class="font-sans mt-4 mb-2"
+    <label
+      for="confirmPassword"
+      class="font-sans mt-4 mb-2 dark:text-darkSecondaryText"
       >Confirm Password</label
     >
     <div class="relative">
@@ -86,7 +108,7 @@
         [ngModelOptions]="{ standalone: true }"
         placeholder="Confirm your password"
         required
-        class="outline-none bg-gray-100 px-4 py-2 rounded-xl w-full placeholder:text-sm placeholder:text-gray-500"
+        class="outline-none dark:bg-darkBackground dark:border dark:text-darkSecondaryText bg-gray-100 px-4 py-2 rounded-xl w-full placeholder:text-sm placeholder:text-gray-500"
       />
     </div>
 

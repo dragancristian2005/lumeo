@@ -3,7 +3,7 @@
     type="text"
     [(ngModel)]="searchQuery"
     placeholder="Search people"
-    class="px-4 py-2 rounded-xl bg-gray-100 outline-none"
+    class="px-4 py-2 rounded-xl dark:bg-darkBackground dark:text-darkSecondaryText dark:border bg-gray-100 outline-none"
   />
 
   <ul
@@ -13,7 +13,7 @@
     <li *ngFor="let friend of friendsInfo">
       <button
         (click)="openChat(friend.id)"
-        class="bg-secondary px-2 py-4 rounded-xl cursor-pointer hover:bg-gray-100 font-sans font-semibold w-full text-left"
+        class="bg-secondary px-2 py-4 rounded-xl cursor-pointer dark:hover:bg-gray-500 hover:bg-gray-100 font-sans font-semibold w-full text-left"
       >
         <div class="flex items-center gap-4">
           <img
@@ -23,8 +23,10 @@
             class="w-12 h-12 rounded-full object-cover"
           />
           <div class="flex flex-col">
-            <span>&#64;{{ friend.username }}</span>
-            <span class="text-gray-500 text-sm truncate">{{
+            <span class="font-sans dark:text-darkSecondaryText"
+              >&#64;{{ friend.username }}</span
+            >
+            <span class="text-gray-400 text-sm truncate font-sans">{{
               friend.lastMessage || 'No messages yet'
             }}</span>
             <span
@@ -40,14 +42,16 @@
   </ul>
 
   <div *ngIf="friendsIds.length === 0 && searchQuery === ''">
-    <p class="text-gray-500 text-center mt-4">No active chats found</p>
+    <p class="text-gray-500 text-center mt-4 dark:text-darkTertiaryText">
+      No active chats found
+    </p>
   </div>
 
   <ul *ngIf="searchQuery !== ''" class="w-full flex flex-col gap-2">
     <li *ngFor="let friend of allFriendsInfo">
       <button
         (click)="createNewChat(friend.id)"
-        class="bg-secondary px-2 py-4 rounded-xl cursor-pointer hover:bg-gray-100 font-sans font-semibold w-full text-left"
+        class="bg-secondary px-2 py-4 rounded-xl cursor-pointer dark:hover:bg-gray-500 hover:bg-gray-100 font-sans font-semibold w-full text-left"
       >
         <div class="flex items-center gap-4">
           <img
@@ -57,7 +61,9 @@
             class="w-12 h-12 rounded-full object-cover"
           />
           <div class="flex flex-col">
-            <span>&#64;{{ friend.username }}</span>
+            <span class="font-sans dark:text-darkPrimaryText"
+              >&#64;{{ friend.username }}</span
+            >
           </div>
         </div>
       </button>

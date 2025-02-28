@@ -1,10 +1,14 @@
-<main class="w-full h-full py-5 px-10 flex flex-col overflow-y-auto">
-  <h1 class="font-sans text-title font-bold">Explore</h1>
+<main
+  class="w-full h-full py-5 px-10 flex flex-col overflow-y-auto dark:bg-darkBackground"
+>
+  <h1 class="font-sans text-title font-bold dark:text-darkPrimaryText">
+    Explore
+  </h1>
   <input
     type="text"
     [(ngModel)]="searchQuery"
     [ngModelOptions]="{ standalone: true }"
-    class="w-full py-2 mt-2 px-5 bg-gray-100 rounded-2xl outline-none"
+    class="w-full py-2 mt-2 px-5 dark:bg-darkBackground dark:border dark:text-darkSecondaryText bg-gray-100 rounded-2xl outline-none"
     placeholder="Search topics, people, or posts"
   />
   <div
@@ -16,7 +20,11 @@
     class="mt-2 mx-2"
   >
     <div class="w-full">
-      <h1 class="font-sans font-semibold text-subtitle">Search People</h1>
+      <h1
+        class="font-sans font-semibold text-subtitle dark:text-darkSecondaryText"
+      >
+        Search People
+      </h1>
       <ul
         class="mx-2 max-h-48 overflow-y-auto w-full"
         *ngIf="filteredSearchResults.length > 0"
@@ -28,7 +36,7 @@
           <div
             class="w-full bg-secondary rounded-2xl p-4 flex flex-row justify-between items-center"
           >
-            <p class="font-sans font-semibold">
+            <p class="font-sans font-semibold dark:text-darkSecondaryText">
               &#64;{{ searchResult.username }}
             </p>
             <div *ngIf="!isUserFollowing[searchResult.userId]">
@@ -79,12 +87,16 @@
         </li>
       </ul>
       <div *ngIf="filteredSearchResults.length === 0">
-        <p class="font-sans">No people found</p>
+        <p class="font-sans dark:text-darkSecondaryText">No people found</p>
       </div>
     </div>
 
     <div class="w-full">
-      <h1 class="font-sans font-semibold text-subtitle mt-4">Search Posts</h1>
+      <h1
+        class="font-sans font-semibold text-subtitle mt-4 dark:text-darkSecondaryText"
+      >
+        Search Posts
+      </h1>
       <ul class="mx-2 w-full">
         <li
           class="mt-4 w-full"
@@ -106,7 +118,7 @@
     "
     class="mt-2 mx-4"
   >
-    <p class="font-sans">No results found</p>
+    <p class="font-sans dark:text-darkSecondaryText">No results found</p>
   </div>
   <div *ngIf="!searchQuery" class="mt-2 overflow-y-auto">
     <app-trending-topics />

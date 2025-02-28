@@ -12,13 +12,14 @@ module.exports = {
       colors: {
         primary: '#634AFF',
         secondary: 'rgba(99,74,255,0.05)',
-        accent: '#38c172',
         primaryText: '#11181C',
         secondaryText: '#5b606c',
         tertiaryText: '#7C7C7C',
-        background: '#f9fafb',
-        dark: '#1f2937',
-        darkBackground: '#2d3748',
+        darkBackground: '#242424',
+        darkPrimaryText: '#f9fafb',
+        darkSecondaryText: '#d1d1d1',
+        darkTertiaryText: '#7C7C7C',
+        hover: 'rgba(99,74,255,0.1)',
       },
       fontSize: {
         text: '0.875rem',

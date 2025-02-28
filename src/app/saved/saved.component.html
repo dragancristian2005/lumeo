@@ -1,9 +1,11 @@
-<main class="w-full h-full py-5 px-10 overflow-y-auto">
-  <h1 class="font-sans text-title font-bold">Bookmarks</h1>
+<main class="w-full h-full py-5 px-10 overflow-y-auto dark:bg-darkBackground">
+  <h1 class="font-sans text-title font-bold dark:text-darkPrimaryText">
+    Bookmarks
+  </h1>
   <input
     type="text"
     [(ngModel)]="searchQuery"
-    class="w-full h-10 mt-2 px-5 bg-gray-100 rounded-xl outline-none"
+    class="w-full h-10 mt-2 px-5 dark:bg-darkBackground dark:border bg-gray-100 rounded-xl outline-none"
     placeholder="Search your bookmarks"
   />
   <ul

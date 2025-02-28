@@ -1,5 +1,7 @@
 <main class="w-full h-full py-2 flex flex-col">
-  <h1 class="font-sans text-subtitle">Trending Topics</h1>
+  <h1 class="font-sans text-subtitle dark:text-darkPrimaryText">
+    Trending Topics
+  </h1>
   <ul
     *ngIf="topTopics.length > 0"
     class="flex flex-row w-full justify-between gap-4"
@@ -12,10 +14,14 @@
         class="w-full h-full flex flex-col items-start justify-center px-8"
         (click)="selectTopic(item.topic)"
       >
-        <p class="font-sans text-text font-semibold text-gray-700">
+        <p
+          class="font-sans text-text font-semibold text-gray-700 dark:text-darkTertiaryText"
+        >
           {{ item.count }} posts
         </p>
-        <h1 class="font-sans text-subtitle font-semibold">
+        <h1
+          class="font-sans text-subtitle font-semibold dark:text-darkSecondaryText"
+        >
           #{{ item.topic | camelCase }}
         </h1>
       </button>
@@ -30,11 +36,16 @@
     Clear Topic Selection
   </button>
 
-  <p *ngIf="topTopics.length === 0" class="font-sans px-4 text-tertiaryText">
+  <p
+    *ngIf="topTopics.length === 0"
+    class="font-sans px-4 text-tertiaryText dark:text-darkSecondaryText"
+  >
     No topics found
   </p>
 
-  <h1 class="font-sans text-subtitle mt-4">Popular Posts</h1>
+  <h1 class="font-sans text-subtitle mt-4 dark:text-darkPrimaryText">
+    Popular Posts
+  </h1>
   <ul class="flex flex-col w-full justify-between gap-4 overflow-y-scroll mt-4">
     <li *ngFor="let post of filteredPosts">
       <app-post-card [postValue]="post.postValue" [postId]="post.postId" />

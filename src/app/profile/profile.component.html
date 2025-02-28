@@ -1,10 +1,14 @@
 <div *ngIf="isLoading">
-  <p>Loading profile...</p>
+  <p
+    class="font-sans text-subtitle dark:text-darkSecondaryText text-tertiaryText"
+  >
+    Loading profile...
+  </p>
 </div>
 
 <main
   *ngIf="!isLoading && userData"
-  class="w-full h-full py-5 px-10 flex flex-col"
+  class="w-full h-full py-5 px-10 flex flex-col dark:bg-darkBackground"
 >
   <div class="flex flex-row items-center">
     <div class="relative mb-1">
@@ -67,7 +71,7 @@
       />
     </div>
     <div class="flex flex-col ml-4">
-      <h1 class="font-sans text-title font-semibold">
+      <h1 class="font-sans text-title font-semibold dark:text-darkPrimaryText">
         {{
           userData.firstName.charAt(0).toUpperCase() +
             userData.firstName.slice(1)
@@ -76,7 +80,7 @@
           userData.lastName.charAt(0).toUpperCase() + userData.lastName.slice(1)
         }}
       </h1>
-      <p class="font-sans text-text font-semibold">
+      <p class="font-sans text-text font-semibold dark:text-darkPrimaryText">
         &#64;{{ userData.username }}
       </p>
     </div>
@@ -130,14 +134,24 @@
   <div class="w-full mt-3 mx-2 overflow-y-auto">
     <app-user-posts />
   </div>
-  <button
-    (click)="logout()"
-    class="mx-2 mt-2 w-fit cursor-pointer bg-primary text-text text-white font-semibold px-5 py-2 rounded-xl"
-  >
-    Logout
-  </button>
+  <div>
+    <button
+      (click)="logout()"
+      class="mx-2 mt-2 w-fit cursor-pointer bg-primary text-text dark:text-darkSecondaryText text-white font-semibold px-5 py-2 rounded-xl"
+    >
+      Logout
+    </button>
+    <button
+      (click)="toggleDarkMode()"
+      class="mx-2 mt-2 w-fit cursor-pointer bg-primary text-text dark:text-darkSecondaryText text-white font-semibold px-5 py-2 rounded-xl"
+    >
+      Toggle Dark Mode
+    </button>
+  </div>
 </main>
 
 <div *ngIf="!isLoading && !userData">
-  <p>User not found!</p>
+  <p class="font-sans text-subtitle dark:text-darkSecondaryText text-white">
+    User not found!
+  </p>
 </div>

@@ -5,12 +5,12 @@ import {
   NotificationService,
 } from './fetch-notifications.component';
 import { Auth } from '@angular/fire/auth';
-import { NgForOf, NgIf } from '@angular/common';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { RelativeTimePipe } from '../profile/relative-time.pipe';
 
 @Component({
   selector: 'app-notifications',
-  imports: [NgIf, NgForOf, RelativeTimePipe],
+  imports: [NgIf, NgForOf, RelativeTimePipe, NgClass],
   templateUrl: './notifications.component.html',
   styleUrl: './notifications.component.scss',
 })

@@ -1,5 +1,7 @@
 <div *ngIf="isLoading">
-  <p>Loading user metrics...</p>
+  <p class="font-sans text-subtitle dark:text-darkPrimaryText">
+    Loading user metrics...
+  </p>
 </div>
 
 <main
@@ -7,7 +9,7 @@
   class="w-full h-full flex flex-row justify-around items-center gap-5"
 >
   <div class="rounded-3xl bg-secondary p-5 w-full h-full">
-    <div class="bg-gray-100 rounded-full p-2 w-fit mb-3">
+    <div class="bg-gray-100 dark:bg-darkBackground rounded-full p-2 w-fit mb-3">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="28px"
@@ -20,11 +22,15 @@
         />
       </svg>
     </div>
-    <p class="font-sans text-subtitle font-semibold px-2">{{ postCount }}</p>
+    <p
+      class="font-sans text-subtitle font-semibold px-2 dark:text-darkSecondaryText"
+    >
+      {{ postCount }}
+    </p>
     <p class="font-sans text-tertiaryText px-2">Posts</p>
   </div>
   <div class="rounded-3xl bg-secondary p-5 w-full h-full">
-    <div class="bg-gray-100 rounded-full p-2 w-fit mb-3">
+    <div class="bg-gray-100 dark:bg-darkBackground rounded-full p-2 w-fit mb-3">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="28px"
@@ -37,13 +43,15 @@
         />
       </svg>
     </div>
-    <p class="font-sans text-subtitle font-semibold px-2">
+    <p
+      class="font-sans text-subtitle font-semibold px-2 dark:text-darkSecondaryText"
+    >
       {{ followersCount }}
     </p>
     <p class="font-sans text-tertiaryText px-2">Followers</p>
   </div>
   <div class="rounded-3xl bg-secondary p-5 w-full h-full">
-    <div class="bg-gray-100 rounded-full p-2 w-fit mb-3">
+    <div class="bg-gray-100 dark:bg-darkBackground rounded-full p-2 w-fit mb-3">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="28px"
@@ -56,7 +64,9 @@
         />
       </svg>
     </div>
-    <p class="font-sans text-subtitle font-semibold px-2">
+    <p
+      class="font-sans text-subtitle font-semibold px-2 dark:text-darkSecondaryText"
+    >
       {{ followingCount }}
     </p>
     <p class="font-sans text-tertiaryText px-2">Following</p>
