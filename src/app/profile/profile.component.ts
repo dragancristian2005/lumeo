@@ -6,17 +6,21 @@ import { Auth } from '@angular/fire/auth';
 import { NgIf } from '@angular/common';
 import { UserMetricsComponent } from './user-metrics/user-metrics.component';
 import { UserPostsComponent } from './user-posts/user-posts.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  imports: [NgIf, UserMetricsComponent, UserPostsComponent],
+  imports: [NgIf, UserMetricsComponent, UserPostsComponent, FormsModule],
 })
 export class ProfileComponent implements OnInit {
   userId: string | null = null;
   userData: UserData | undefined;
   isLoading = true;
+
+  isEditing = false;
+  newBio = '';
 
   constructor(
     private authService: AuthService,
@@ -44,6 +48,30 @@ export class ProfileComponent implements OnInit {
       console.error('Error fetching user data:', error);
     } finally {
       this.isLoading = false;
+    }
+  }
+
+  toggleEdit() {
+    if (!this.userData) return;
+    this.isEditing = true;
+    this.newBio = this.userData.bio || '';
+    setTimeout(() => {
+      const inputElement =
+        document.querySelector<HTMLInputElement>('#bioInput');
+      if (inputElement) inputElement.focus();
+    }, 0);
+  }
+
+  async saveBio() {
+    if (!this.userId || !this.userData) return;
+
+    this.userData.bio = this.newBio.trim();
+    this.isEditing = false;
+
+    try {
+      await this.firebaseService.updateUser(this.userId, { bio: this.newBio });
+    } catch (error) {
+      console.error('Error updating bio:', error);
     }
   }
 

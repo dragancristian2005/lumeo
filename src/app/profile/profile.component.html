@@ -15,7 +15,49 @@
   <p class="font-sans text-text font-semibold mt-5">
     &#64;{{ userData.username }}
   </p>
-  <p class="font-sans text-text text-gray-400 mt-1">{{ userData.bio }}</p>
+  <div class="relative">
+    <p
+      *ngIf="!isEditing"
+      class="font-sans text-text text-gray-400 mt-1 cursor-pointer"
+      (click)="toggleEdit()"
+      (keyup.enter)="toggleEdit()"
+      (keyup.space)="toggleEdit()"
+      tabindex="0"
+      role="button"
+      aria-label="Edit bio"
+    >
+      {{ userData?.bio || 'Click to add a bio' }}
+
+      <button
+        class="ml-2 text-gray-500 focus:outline-none"
+        (click)="toggleEdit()"
+        (keyup.enter)="toggleEdit()"
+        (keyup.space)="toggleEdit()"
+        aria-label="Edit bio"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="16"
+          viewBox="0 -960 960 960"
+          width="16"
+          class="inline-block fill-gray-400 hover:fill-gray-600"
+        >
+          <path
+            d="M200-200h76l372-372-76-76-372 372v76Zm540-408-76-76 52-52q10-10 23-10t23 10l30 30q10 10 10 23t-10 23l-52 52Zm-80 80-372 372H120v-168l372-372 168 168Zm-96-72-38-38 76 76-38-38Z"
+          />
+        </svg>
+      </button>
+    </p>
+    <input
+      *ngIf="isEditing"
+      type="text"
+      [(ngModel)]="newBio"
+      class="bg-gray-100 px-3 py-1 rounded-lg w-full focus:outline-none"
+      (blur)="saveBio()"
+      (keyup.enter)="saveBio()"
+      #bioInput
+    />
+  </div>
   <div class="w-full mt-3 mx-2">
     <app-user-metrics />
   </div>

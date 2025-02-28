@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Database, onValue, ref } from '@angular/fire/database';
-import { get } from 'firebase/database';
+import { get, update } from 'firebase/database';
 import { Post, PostWithId } from '../types/post.types';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { UserData } from '../types/userData.types';
 
 @Injectable({
   providedIn: 'root',
@@ -94,5 +95,10 @@ export class FirebaseService {
         }
       });
     });
+  }
+
+  async updateUser(userId: string, data: Partial<UserData>) {
+    const userRef = ref(this.db, `users/${userId}`);
+    return update(userRef, data);
   }
 }
