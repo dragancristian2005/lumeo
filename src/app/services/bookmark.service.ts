@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { get, getDatabase, push, ref, set } from 'firebase/database';
-import { remove } from '@angular/fire/database';
+import { get, getDatabase, ref, set, remove } from 'firebase/database';
 
 @Injectable({
   providedIn: 'root',
@@ -18,9 +17,11 @@ export class BookmarkService {
   }
 
   db = getDatabase();
+
   async toggleBookmark(
     postId: string,
     authorUsername: string,
+    authorProfilePic: string,
     title: string,
     content: string,
   ) {
@@ -30,13 +31,16 @@ export class BookmarkService {
       this.db,
       `users/${this.currentUserId}/bookmarks/${postId}`,
     );
+
     const savedPost = {
       postId,
       authorUsername,
       postTitle: title,
       content,
       timestamp: Date.now(),
+      authorProfilePic,
     };
+
     try {
       const snapshot = await get(userBookmarkRef);
       if (snapshot.exists()) {

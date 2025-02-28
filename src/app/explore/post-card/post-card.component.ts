@@ -48,6 +48,16 @@ export class PostCardComponent implements OnInit {
     this.getLikesCount(this.postId);
     this.getCommentsCount(this.postId);
     this.getPostComments();
+
+    if (!this.postValue.authorProfilePic) {
+      const userRef = ref(this.db, `users/${this.postValue.authorId}`);
+      get(userRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          const userData = snapshot.val();
+          this.postValue.authorProfilePic = userData.profilePic || '';
+        }
+      });
+    }
   }
 
   async loadBookmarkStatus() {
@@ -132,6 +142,7 @@ export class PostCardComponent implements OnInit {
       this.isBookmarked = !!(await this.bookmarkService.toggleBookmark(
         this.postId,
         this.postValue.authorUsername,
+        this.postValue.authorProfilePic,
         this.postValue.postTitle,
         this.postValue.content,
       ));

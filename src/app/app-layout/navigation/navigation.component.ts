@@ -217,9 +217,14 @@ export class NavigationComponent {
       }
 
       const userId = currentUser.uid;
+
       const usernameRef = ref(this.db, `users/${userId}/username`);
       const usernameSnapshot = await get(usernameRef);
       const username = usernameSnapshot.val();
+
+      const profilePicRef = ref(this.db, `users/${userId}/profilePic`);
+      const profilePicSnapshot = await get(profilePicRef);
+      const profilePic = profilePicSnapshot.val() || '';
 
       const timestamp = Date.now();
 
@@ -232,6 +237,7 @@ export class NavigationComponent {
         timestamp,
         likes: {},
         comments: {},
+        authorProfilePic: profilePic,
       };
 
       const newPostRef = ref(this.db, `posts`);

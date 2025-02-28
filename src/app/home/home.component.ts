@@ -14,7 +14,6 @@ import { PostCardComponent } from '../explore/post-card/post-card.component';
 export class HomeComponent {
   currentUserId: string | null = null;
   posts: { postId: string; postValue: Post }[] = [];
-
   db = getDatabase();
   postRef = ref(this.db, 'posts');
 
@@ -32,11 +31,33 @@ export class HomeComponent {
               }))
               .filter((post) => post.postValue.authorId !== this.currentUserId)
               .sort((a, b) => b.postValue.timestamp - a.postValue.timestamp);
+
+            this.fetchProfilePicturesForPosts();
           } else {
             this.posts = [];
           }
         });
       }
+    });
+  }
+
+  async fetchProfilePicturesForPosts() {
+    for (const post of this.posts) {
+      const authorId = post.postValue.authorId;
+
+      const userRef = ref(this.db, `users/${authorId}`);
+      const userSnapshot = await this.getUserSnapshot(userRef);
+
+      if (userSnapshot.exists()) {
+        const userData = userSnapshot.val();
+        post.postValue.authorProfilePic = userData.profilePic || '';
+      }
+    }
+  }
+
+  getUserSnapshot(userRef: any) {
+    return new Promise<any>((resolve, reject) => {
+      onValue(userRef, resolve, reject);
     });
   }
 }

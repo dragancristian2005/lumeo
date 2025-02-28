@@ -1,11 +1,28 @@
 <main class="w-full h-full bg-secondary py-4 px-8 rounded-2xl">
-  <h1 class="font-sans font-semibold mb-4">
-    &#64;{{ postValue.authorUsername }}
-  </h1>
+  <div class="flex items-center gap-3 mb-4">
+    <div class="w-12 h-12 rounded-full overflow-hidden">
+      <img
+        *ngIf="postValue.authorProfilePic; else defaultProfilePic"
+        [src]="postValue.authorProfilePic"
+        alt="Profile Picture"
+        class="w-full h-full object-cover"
+      />
+      <ng-template #defaultProfilePic>
+        <div
+          class="w-full h-full bg-gray-300 flex items-center justify-center text-white text-lg"
+        >
+          {{ postValue.authorUsername.charAt(0).toUpperCase() }}
+        </div>
+      </ng-template>
+    </div>
+    <h1 class="font-sans font-semibold">&#64;{{ postValue.authorUsername }}</h1>
+  </div>
+
   <h3 class="font-sans text-subtitle font-semibold">
     {{ postValue.postTitle }}
   </h3>
   <p class="font-sans">{{ postValue.content }}</p>
+
   <div class="flex flex-row items-center gap-2">
     <button
       (click)="toggleLike(postId)"
@@ -29,9 +46,9 @@
       {{ isBookmarked ? '★ Bookmarked' : '☆ Bookmark' }}
     </button>
   </div>
+
   <div class="w-full flex flex-col gap-2">
     <h1 class="font-sans font-semibold mt-2 text-subtitle">Comments</h1>
-
     <ul
       class="w-full flex flex-col px-4 overflow-y-auto max-h-32"
       *ngIf="comments.length > 0"
@@ -48,6 +65,7 @@
     <p class="font-sans text-tertiaryText px-4" *ngIf="comments.length === 0">
       Be the first to leave a comment
     </p>
+
     <div class="flex flex-row gap-2 w-full">
       <input
         type="text"
