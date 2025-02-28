@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Database, onValue, ref } from '@angular/fire/database';
 import { get } from 'firebase/database';
-import { Post } from '../types/post.types';
+import { Post, PostWithId } from '../types/post.types';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -75,13 +75,20 @@ export class FirebaseService {
   listenForLikedPosts(userId: string) {
     const likedPostRef = ref(this.db, `posts`);
 
-    return new Observable<Post[]>((observer) => {
+    return new Observable<PostWithId[]>((observer) => {
       onValue(likedPostRef, (snapshot) => {
         if (snapshot.exists()) {
-          const likedPosts: Post[] = Object.values(snapshot.val()) as Post[];
-          const filteredLikedPosts = likedPosts.filter(
-            (post: Post) => post.likes && post.likes[userId],
-          );
+
+          const postData = snapshot.val();
+          const filteredLikedPosts: PostWithId[] = [];
+
+          Object.keys(postData).forEach((postId) => {
+            const post = postData[postId];
+            if (post.likes && post.likes[userId]) {
+              filteredLikedPosts.push({ ...post, postId });
+            }
+          });
+
           observer.next(filteredLikedPosts);
         } else {
           observer.next([]);
@@ -89,5 +96,4 @@ export class FirebaseService {
       });
     });
   }
-  
 }

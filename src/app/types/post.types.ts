@@ -15,3 +15,7 @@ export interface Post {
   likes: Record<string, boolean>;
   comments: Record<string, Comment>;
 }
+
+export interface PostWithId extends Post {
+  postId: string;
+}
