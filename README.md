@@ -1,27 +1,35 @@
-# Lumeo
+# Lumeo / Social Media WebApp  
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.9.
+Lumeo is a modern social media platform built with Angular, Tailwind CSS, and Firebase. Connect with friends, share posts, and engage with the community in real time.  
 
-## Development server
+#  Features  
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+In Lumeo, you can:  
+✔️ Create new posts, like, comment, or bookmark posts from friends  
+✔️ Explore popular posts and topics or search for new people  
+✔️ View all your notifications  
+✔️ Chat with your friends  
+✔️ See your bookmarks  
+✔️ Manage your account  
 
-## Code scaffolding
+#  Screenshots  
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+| New Post | Home Screen |  
+|----------|------------|  
+| <img src="assets/readme/newPost.png" width="500px"/> | <img src="assets/readme/homeScreen.png" width="500px"/> |  
 
-## Build
+| Explore Screen | Notifications |  
+|---------------|--------------|  
+| <img src="assets/readme/exploreScreen.png" width="500px"/> | <img src="assets/readme/largerNotifications.png" width="500px"/> |  
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+| Messages | Bookmarks |  
+|---------|-----------|  
+| <img src="assets/readme/messagesScreen.png" width="500px"/> | <img src="assets/readme/bookmarkScreen.png" width="500px"/> |  
 
-## Running unit tests
+| Profile Screen |  
+|---------------|  
+| <img src="assets/readme/profileScreenWNavbar.png" width="1000px"/> |  
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+# Used Technologies
+ - **Frontend:** Angular, TailwindCSS
+ - **Backend:** Firebase(Authentication, Realtime Database, Storage)
