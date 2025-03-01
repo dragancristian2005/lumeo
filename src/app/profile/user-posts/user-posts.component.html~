@@ -20,7 +20,7 @@
   class="overflow-y-auto flex flex-col-reverse"
 >
   <div *ngIf="userPosts.length > 0; else noPosts" class="flex flex-col gap-3">
-    <div *ngFor="let post of userPosts">
+    <div *ngFor="let post of userPosts" >
       <div class="bg-secondary p-8 rounded-2xl flex flex-col justify-center">
         <p class="font-sans text-text text-secondaryText font-semibold">
           {{ post.timestamp | relativeTime }}
