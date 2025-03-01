@@ -129,7 +129,7 @@ export class PostCardComponent implements OnInit {
 
     const newComment = {
       authorId: this.currentUserId,
-      authorUsername: username,
+      authorUsername: this.postValue.authorUsername,
       content: this.commentContent,
       timestamp: Date.now(),
     };
