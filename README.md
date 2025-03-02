@@ -1,16 +1,16 @@
 # Lumeo / Social Media WebApp  
 
-Lumeo is a modern social media platform built with Angular, Tailwind CSS, and Firebase. Connect with friends, share posts, and engage with the community in real time.  
+Lumeo is a social media platform built using Angular, Tailwind CSS, and Firebase. It provides real-time interaction features for connecting with others and sharing content.
 
 #  Features  
 
-In Lumeo, you can:  
-✔️ Create new posts, like, comment, or bookmark posts from friends  
-✔️ Explore popular posts and topics or search for new people  
-✔️ View all your notifications  
-✔️ Chat with your friends  
-✔️ See your bookmarks  
-✔️ Manage your account  
+Lumeo allows users to:
+- Create posts, like, comment, and bookmark content
+- Explore popular topics and search for other users  
+- View notifications  
+- Chat with friends  
+- Access saved bookmarks  
+- Manage account settings  
 
 #  Screenshots  
 
